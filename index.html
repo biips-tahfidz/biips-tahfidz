@@ -1,0 +1,184 @@
+HTML
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setoran Tahfidz & Murojaah - BIIPS Blora</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts Premium Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Color Config untuk menyamakan dengan Logo BIIPS -->
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .bg-biips-navy { background-color: #1B365D; }
+        .text-biips-navy { color: #1B365D; }
+        .border-biips-navy { border-color: #1B365D; }
+        
+        .bg-biips-gold { background-color: #C5A059; }
+        .text-biips-gold { color: #C5A059; }
+        .border-biips-gold { border-color: #C5A059; }
+        .focus-biips-gold:focus { border-color: #C5A059; --tw-ring-color: #C5A059; }
+    </style>
+</head>
+  <script>
+    let mediaRecorder;
+    let audioChunks = [];
+    let audioBase64 = "";
+    const recordBtn = document.getElementById('recordBtn');
+    const recordStatus = document.getElementById('recordStatus');
+    const form = document.getElementById('tahfidzForm');
+
+    // Fitur Rekam Suara
+    recordBtn.addEventListener('click', async () => {
+        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            mediaRecorder.onstop = async () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = () => {
+                    audioBase64 = reader.result;
+                    recordStatus.innerText = "✓ Rekaman siap dikirim!";
+                    recordStatus.className = "text-xs text-emerald-600 font-bold mt-3";
+                };
+            };
+
+            mediaRecorder.start();
+            recordStatus.innerText = "🔴 Sedang merekam suara...";
+            recordBtn.classList.add('animate-pulse', 'bg-red-600');
+        } else {
+            mediaRecorder.stop();
+            recordBtn.classList.remove('animate-pulse', 'bg-red-600');
+        }
+    });
+
+    // Kirim Data saat Tombol Submit diklik
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if(!audioBase64) {
+            alert("Harap rekam suara terlebih dahulu!");
+            return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.innerText = "Mengirim...";
+        submitBtn.disabled = true;
+
+        const formData = new URLSearchParams();
+        formData.append('nama', form.elements[0].value);
+        formData.append('jenis', form.querySelector('input[name="jenis"]:checked').value);
+        formData.append('surah', form.elements[3].value);
+        formData.append('audioData', audioBase64);
+
+        // GANTI LINK DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        const webAppUrl = "
+https://script.google.com/macros/s/AKfycbw5xyOUYGNI64VFMayG0mA4v8-a8cg_NnCy6A4SZRn_O-CiLd5Y_YV25rOP58GkyyoFbg/exec";
+
+        fetch(webAppUrl, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+            form.reset();
+            audioBase64 = "";
+            recordStatus.innerText = "Ketuk tombol untuk mulai merekam";
+            recordStatus.className = "text-xs text-slate-400 mt-3 font-medium";
+            submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
+            submitBtn.disabled = false;
+        })
+        .catch(err => {
+            alert("Gagal mengirim data. Coba lagi.");
+            submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
+            submitBtn.disabled = false;
+        });
+    });
+</script>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / BRANDING BIIPS -->
+    <header class="bg-biips-navy text-white py-8 px-4 shadow-lg text-center rounded-b-[2rem] border-b-4 border-biips-gold">
+        <!-- Wadah Logo BIIPS -->
+        <div class="w-24 h-24 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-md p-1">
+            <!-- Ganti src dengan file logo 'logo biips.jpg' Anda nantinya -->
+            <img src="logo biips.jpg" alt="Logo BIIPS" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='block';">
+            <span id="logo-placeholder" class="text-biips-navy font-bold text-[10px] text-center hidden">BIIPS<br>BLORA</span>
+        </div>
+        <h1 class="text-xl font-bold tracking-wide uppercase">Bina Ilmu Islamic Primary School</h1>
+        <p class="text-slate-300 text-xs mt-1 font-light tracking-widest">PORTAL SETORAN TAHFIDZ & MUROJAAH</p>
+    </header>
+
+    <!-- FORM UTAMA -->
+    <main class="max-w-md w-full mx-auto px-4 my-8 flex-grow">
+        <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100">
+            <div class="text-center mb-6">
+                <h2 class="text-slate-800 font-bold text-lg">Formulir Digital Santri</h2>
+                <div class="w-12 h-1 bg-biips-gold mx-auto mt-1 rounded-full"></div>
+            </div>
+            
+            <form id="tahfidzForm" class="space-y-5">
+                <!-- Nama Santri -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Nama Lengkap Santri</label>
+                    <input type="text" placeholder="Masukkan nama lengkap" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus-biips-gold text-sm shadow-sm" required>
+                </div>
+
+                <!-- Jenis Setoran -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Jenis Program</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="border border-slate-200 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:bg-slate-50 select-none has-[:checked]:border-biips-navy has-[:checked]:bg-blue-50/50 transition-all">
+                            <input type="radio" name="jenis" value="Tahfidz" class="accent-[#1B365D]" checked>
+                            <span class="text-sm font-medium text-slate-700">Tahfidz (Baru)</span>
+                        </label>
+                        <label class="border border-slate-200 rounded-xl p-3 flex items-center justify-center gap-2 cursor-pointer hover:bg-slate-50 select-none has-[:checked]:border-biips-navy has-[:checked]:bg-blue-50/50 transition-all">
+                            <input type="radio" name="jenis" value="Murojaah" class="accent-[#1B365D]">
+                            <span class="text-sm font-medium text-slate-700">Murojaah</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Surah / Ayat -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Surah / Ayat / Juz</label>
+                    <input type="text" placeholder="Contoh: Juz 30 / An-Naba' 1-10" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus-biips-gold text-sm shadow-sm" required>
+                </div>
+
+                <!-- Area Rekaman Elegan -->
+                <div class="bg-slate-50 rounded-xl p-5 border border-dashed border-slate-300 text-center transition-all">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Rekam Audio Hafalan</label>
+                    
+                    <!-- Tombol Rekam -->
+                    <button type="button" id="recordBtn" class="mx-auto w-16 h-16 bg-biips-navy hover:opacity-90 text-white rounded-full flex items-center justify-center shadow-lg transition-all active:scale-95 border-2 border-biips-gold">
+                        <!-- Icon Mikrofon Putih -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <p id="recordStatus" class="text-xs text-slate-400 mt-3 font-medium">Ketuk tombol untuk mulai merekam</p>
+                </div>
+
+                <!-- Tombol Submit Emas -->
+                <button type="submit" class="w-full bg-biips-gold hover:bg-[#B38F46] text-white font-bold py-3.5 rounded-xl shadow-md transition-colors text-sm uppercase tracking-wider">
+                    Kirim Rekaman Ke Ustadz
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-4 text-[11px] text-slate-400 font-medium tracking-wide">
+        &copy; 2026 BIIPS Blora - Jawa Tengah. All Rights Reserved.
+    </footer>
+
+</body>
+</html>
