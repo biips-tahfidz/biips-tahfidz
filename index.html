@@ -24,22 +24,25 @@ HTML
     </style>
 </head>
   <script>
-    let mediaRecorder;
-    let audioChunks = [];
-    let audioBase64 = "";
-    const recordBtn = document.getElementById('recordBtn');
-    const recordStatus = document.getElementById('recordStatus');
-    const form = document.getElementById('tahfidzForm');
+   let mediaRecorder;
+let audioChunks = [];
+let audioBase64 = "";
+const recordBtn = document.getElementById('recordBtn');
+const recordStatus = document.getElementById('recordStatus');
+const form = document.getElementById('tahfidzForm');
 
-    // Fitur Rekam Suara
-    recordBtn.addEventListener('click', async () => {
+recordBtn.addEventListener('click', async () => {
+    try {
         if (!mediaRecorder || mediaRecorder.state === 'inactive') {
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
             mediaRecorder = new MediaRecorder(stream);
             audioChunks = [];
             
-            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-            mediaRecorder.onstop = async () => {
+            mediaRecorder.dataavailable = e => {
+                if (e.data.size > 0) audioChunks.push(e.data);
+            };
+            
+            mediaRecorder.onstop = () => {
                 const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                 const reader = new FileReader();
                 reader.readAsDataURL(audioBlob);
@@ -57,51 +60,11 @@ HTML
             mediaRecorder.stop();
             recordBtn.classList.remove('animate-pulse', 'bg-red-600');
         }
-    });
-
-    // Kirim Data saat Tombol Submit diklik
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if(!audioBase64) {
-            alert("Harap rekam suara terlebih dahulu!");
-            return;
-        }
-
-        const submitBtn = form.querySelector('button[type="submit"]');
-        submitBtn.innerText = "Mengirim...";
-        submitBtn.disabled = true;
-
-        const formData = new URLSearchParams();
-        formData.append('nama', form.elements[0].value);
-        formData.append('jenis', form.querySelector('input[name="jenis"]:checked').value);
-        formData.append('surah', form.elements[3].value);
-        formData.append('audioData', audioBase64);
-
-        // GANTI LINK DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
-        const webAppUrl = "
-https://script.google.com/macros/s/AKfycbw5xyOUYGNI64VFMayG0mA4v8-a8cg_NnCy6A4SZRn_O-CiLd5Y_YV25rOP58GkyyoFbg/exec";
-
-        fetch(webAppUrl, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        })
-        .then(res => res.json())
-        .then(data => {
-            alert(data.message);
-            form.reset();
-            audioBase64 = "";
-            recordStatus.innerText = "Ketuk tombol untuk mulai merekam";
-            recordStatus.className = "text-xs text-slate-400 mt-3 font-medium";
-            submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
-            submitBtn.disabled = false;
-        })
-        .catch(err => {
-            alert("Gagal mengirim data. Coba lagi.");
-            submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
-            submitBtn.disabled = false;
-        });
-    });
+    } catch (err) {
+        alert("Gagal mengakses mikrofon. Pastikan izin sudah diberikan!");
+        console.error(err);
+    }
+});
 </script>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between">
 
