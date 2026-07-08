@@ -6,20 +6,37 @@
   <title>Aplikasi Setoran Tahfidz BIIPS</title>
   
   <style>
+    /* Mengatur agar semua halaman utama (Login & Santri) otomatis berada di tengah layar */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
       margin: 0; padding: 0;
-      display: flex; justify-content: center; align-items: center; min-height: 100vh;
+      display: flex; 
+      flex-direction: column;
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh;
+      box-sizing: border-box;
     }
+    
+    /* Style Box Utama (Untuk Login & Form Santri) */
     .container-box {
-      background: #ffffff; max-width: 450px; width: 90%; padding: 30px; border-radius: 15px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); text-align: center; box-sizing: border-box;
+      background: #ffffff; 
+      max-width: 480px; /* Lebar maksimal box di laptop agar tetap proporsional */
+      width: 90%; 
+      padding: 35px; 
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
+      text-align: center; 
+      box-sizing: border-box;
+      margin: 20px auto; /* Memastikan margin otomatis seimbang kanan-kiri */
     }
+    
     .header-logo { width: 100px; height: auto; margin-bottom: 15px; border-radius: 50%; }
     h2 { color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
     p.subtitle { color: #7f8c8d; font-size: 14px; margin-top: 0; margin-bottom: 25px; }
     
+    /* Elemen Input & Form */
     .input-group { text-align: left; margin-bottom: 18px; }
     .input-group label { display: block; font-size: 14px; color: #34495e; margin-bottom: 6px; font-weight: 600; }
     .input-group input, .input-group select { 
@@ -27,12 +44,14 @@
     }
     .input-group input:focus, .input-group select:focus { border-color: #16a085; outline: none; }
     
+    /* Tombol Utama */
     .btn-primary { 
       width: 100%; padding: 12px; background: #16a085; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 160, 133, 0.2); transition: 0.3s;
     }
     .btn-primary:hover { background: #117a65; }
     .btn-primary:disabled { background-color: #bdc3c7; cursor: not-allowed; box-shadow: none; }
     
+    /* Tombol Rekam */
     .btn-record {
       background: #e74c3c; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.3s; width: 100%; font-size: 15px;
     }
@@ -41,7 +60,8 @@
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     #statusMessage { font-size: 14px; margin-top: 15px; font-weight: 500; }
     
-    #guruPage { background: white; width: 95%; max-width: 1000px; padding: 30px; border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); margin: 30px auto; display: none; }
+    /* Layout Khusus Laporan Guru (Lebih lebar karena berupa Tabel Data) */
+    #guruPage { background: white; width: 95%; max-width: 1100px; padding: 30px; border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); margin: 30px auto; display: none; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 15px; margin-top: 15px; }
     th { background-color: #16a085; color: white; padding: 12px; }
     td { padding: 12px; border-bottom: 1px solid #eee; }
@@ -137,7 +157,6 @@
 
 
   <script>
-    // Link Apps Script terbaru Anda yang sudah diintegrasikan langsung
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw0DxNoYiQnUQVN5QRN3XAPu69Lt4o_wGX_VFCCYmRqeNzyKIWmz1Dw1jnDQm9SoCB-XA/exec";
 
     let mediaRecorder;
@@ -166,7 +185,7 @@
         .then(data => {
           if (data.status === "success") {
             document.body.style.background = "#f4f6f9"; 
-            document.body.style.display = "block"; 
+            document.body.style.display = "block"; // Reset dari flex agar halaman guru lebar penuh
             document.getElementById("loginSection").style.display = "none";
             
             sessionUser.role = data.role;
@@ -174,7 +193,9 @@
             sessionUser.username = user;
 
             if (data.role === "santri") {
-              document.getElementById("santriPage").style.display = "inline-block";
+              // Menjaga struktur body flex tetap bekerja untuk halaman santri agar selalu center
+              document.body.style.display = "flex";
+              document.getElementById("santriPage").style.display = "block";
               document.getElementById("namaSantri").value = user;
               document.getElementById("kelasSantri").value = data.kelas;
             } else {
