@@ -1,64 +1,234 @@
-<div id="loginSection" style="max-width: 400px; margin: 50px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px;">
-  <h2>Login BIIPS Tahfidz</h2>
-  <label>Username:</label>
-  <input type="text" id="username" style="width:100%; margin-bottom:10px; padding:8px;"><br>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Setoran Tahfidz BIIPS</title>
   
-  <label>Password:</label>
-  <input type="password" id="password" style="width:100%; margin-bottom:15px; padding:8px;"><br>
-  
-  <button onclick="handleLogin()" style="width:100%; padding:10px; background:#16a085; color:white; border:none; border-radius:4px; cursor:pointer;">Masuk</button>
-  <p id="loginMessage" style="color:red; text-align:center; margin-top:10px;"></p>
-</div>
+  <!-- Desain CSS Tampilan Login yang Cantik & Responsif -->
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-<div id="santriPage" style="display:none; padding: 20px;">
-  <h3>Selamat Datang Santri, Silakan Lakukan Setoran Rekaman</h3>
+    #loginSection {
+      background: #ffffff;
+      max-width: 400px;
+      width: 90%;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .header-logo {
+      width: 100px; /* Sesuaikan ukuran logo BIIPS Anda */
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    #loginSection h2 {
+      color: #2c3e50;
+      margin-bottom: 5px;
+      font-size: 24px;
+    }
+
+    #loginSection p.subtitle {
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 25px;
+    }
+
+    .input-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      color: #34495e;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #16a085;
+      box-shadow: 0 0 8px rgba(22, 160, 133, 0.2);
+      outline: none;
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      background: #16a085;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 12px rgba(22, 160, 133, 0.2);
+    }
+
+    .btn-login:hover {
+      background: #117a65;
+    }
+
+    #loginMessage {
+      font-size: 14px;
+      margin-top: 15px;
+      font-weight: 500;
+    }
+
+    /* Gaya Halaman Info Guru */
+    #guruPage {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- HALAMAN LOGIN BEAUTIFUL DENGAN HEADER LOGO -->
+  <!-- ========================================== -->
+  <div id="loginSection">
+    <!-- Masukkan URL gambar Logo BIIPS Anda di src bawah ini -->
+    <img src="https://biips-tahfidz.github.io/biips-tahfidz/logo.png" alt="Logo BIIPS" class="header-logo" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
+    <h2>Aplikasi Setoran Tahfidz</h2>
+    <p class="subtitle">Bina Insan Islamic Progressive School</p>
+    
+    <div class="input-group">
+      <label for="username">Username / NIS</label>
+      <input type="text" id="username" placeholder="Masukkan username Anda...">
+    </div>
+    
+    <div class="input-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Masukkan password Anda...">
+    </div>
+    
+    <button class="btn-login" onclick="handleLogin()">Masuk Aplikasi</button>
+    <p id="loginMessage"></p>
   </div>
 
-<div id="guruPage" style="display:none; padding: 20px;">
-  <h3>Selamat Datang Ustadz / Ustadzah</h3>
-  <p>Anda dapat mengecek setoran audio santri langsung di dokumen Google Sheets Data Setoran Santri melalui menu "Pemutar Audio BIIPS".</p>
-</div>
 
-<script>
-// Ganti dengan URL Web App Apps Script Anda hasil deploy terbaru
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0-MaQUehR5Z4gq2uhA2IuCklVCG2lSOl5w6k5CdzsVA4zDpuIz2awwTQCpdwcsjd03w/exec";
+  <!-- ========================================== -->
+  <!-- LANDING PAGE REKAMAN SANTRI (YANG SUDAH SUKSES ANDA BUAT) -->
+  <!-- ========================================== -->
+  <div id="santriPage" style="display: none; width: 100%;">
+    
+    <!-- ⚠️ TEMPELKAN ATAU BIARKAN SELURUH KODE LANDING PAGE & FORM REKAMAN SUARA ANDA YANG SUDAH SUKSES DI SINI ⚠️ -->
+    <!-- Contoh pembungkus luar saja: -->
+    <div style="padding: 20px; max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+       <h2>Marhaban, Silakan Mulai Setoran Tahfidz Ananda</h2>
+       <!-- Masukkan kode input nama, jenis program, surah, tombol record, dsb milik Anda di bawah ini -->
+    </div>
+    
+  </div>
 
-function handleLogin() {
-  const user = document.getElementById("username").value;
-  const pass = document.getElementById("password").value;
-  const msg = document.getElementById("loginMessage");
-  
-  if(!user || !pass) {
-    msg.innerText = "Semua kolom wajib diisi!";
-    return;
-  }
-  
-  msg.style.color = "blue";
-  msg.innerText = "Mengecek akun...";
-  
-  // Memanggil fungsi doGet di Apps Script dengan parameter login
-  fetch(`${WEB_APP_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === "success") {
-        // Sembunyikan form login
-        document.getElementById("loginSection").style.display = "none";
-        
-        // Cek Role hasil balasan dari Google Sheet
-        if (data.role === "santri") {
-          document.getElementById("santriPage").style.display = "block";
-        } else if (data.role === "guru") {
-          document.getElementById("guruPage").style.display = "block";
-        }
-      } else {
-        msg.style.color = "red";
-        msg.innerText = data.message;
+
+  <!-- ========================================== -->
+  <!-- HALAMAN INFORMASI UTUK GURU / USTADZ -->
+  <!-- ========================================== -->
+  <div id="guruPage" style="display: none;">
+    <h2 style="color: #2c3e50;">Ahlan Wa Sahlan, Ustadz/Ustadzah pengampu</h2>
+    <hr style="border:0; border-top: 1px solid #eee; margin: 20px 0;">
+    <p style="font-size: 16px; color: #555; line-height: 1.6;">
+      Untuk melakukan pengecekan, koreksi, dan mendengarkan rekaman audio hafalan para santri, silakan buka dokumen <b>Google Sheets (Data Setoran Santri)</b>.
+    </p>
+    <p style="font-size: 15px; color: #16a085; font-weight: bold;">
+      💡 Gunakan Menu internal "🎵 Pemutar Audio BIIPS" pada Google Sheets untuk memutar audio instan.
+    </p>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC LOGIN INTERACTION -->
+  <!-- ========================================== -->
+  <script>
+    // MASUKKAN URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0-MaQUehR5Z4gq2uhA2IuCklVCG2lSOl5w6k5CdzsVA4zDpuIz2awwTQCpdwcsjd03w/exec";
+
+    function handleLogin() {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      const msg = document.getElementById("loginMessage");
+      
+      if(!user || !pass) {
+        msg.style.color = "#e74c3c";
+        msg.innerText = "⚠️ Username dan password tidak boleh kosong!";
+        return;
       }
-    })
-    .catch(err => {
-      msg.style.color = "red";
-      msg.innerText = "Terjadi gangguan koneksi sistem.";
-      console.error(err);
-    });
-}
-</script>
+      
+      msg.style.color = "#16a085";
+      msg.innerText = "⏳ Memverifikasi akun ke sistem...";
+      
+      // Mengirim request login ke doGet Apps Script
+      fetch(`${WEB_APP_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            
+            // Hilangkan background gradien bawaan login agar sesuai landing page Anda
+            document.body.style.background = "#f4f6f9"; 
+            document.body.style.display = "block"; 
+            
+            // Sembunyikan Form Login Cantik
+            document.getElementById("loginSection").style.display = "none";
+            
+            // Arahkan ke halaman berdasarkan Role
+            if (data.role === "santri") {
+              // Menampilkan Landing Page Sukses milik Anda
+              document.getElementById("santriPage").style.display = "block";
+              
+              // Opsi Tambahan: Otomatis mengisikan nama santri ke input form setoran Anda jika ada
+              const inputNamaSiswa = document.getElementById("id_input_nama_di_landingpage_anda");
+              if(inputNamaSiswa) {
+                inputNamaSiswa.value = user;
+              }
+              
+            } else if (data.role === "guru") {
+              // Menampilkan Halaman Panduan Guru
+              document.getElementById("guruPage").style.display = "inline-block";
+            }
+          } else {
+            msg.style.color = "#e74c3c";
+            msg.innerText = "❌ " + data.message;
+          }
+        })
+        .catch(err => {
+          msg.style.color = "#e74c3c";
+          msg.innerText = "🌐 Gagal terhubung ke server. Periksa jaringan Anda.";
+          console.error(err);
+        });
+    }
+  </script>
+</body>
+</html>
