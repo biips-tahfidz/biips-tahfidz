@@ -21,11 +21,9 @@
 </head>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between">
 
- <!-- HEADER / BRANDING BIIPS -->
+    <!-- HEADER / BRANDING BIIPS -->
     <header class="bg-biips-navy text-white py-8 px-4 shadow-lg text-center rounded-b-[2rem] border-b-4 border-biips-gold">
-        <!-- Wadah Logo BIIPS -->
         <div class="w-24 h-24 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-md p-1">
-            <!-- Ganti src dengan file logo 'logo biips.jpg' Anda nantinya -->
             <img src="logobiips.jpg" alt="Logo BIIPS" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='block';">
             <span id="logo-placeholder" class="text-biips-navy font-bold text-[10px] text-center hidden">BIIPS<br>BLORA</span>
         </div>
@@ -108,10 +106,9 @@
         const form = document.getElementById('tahfidzForm');
         const submitBtn = document.getElementById('submitBtn');
 
-        // Batasan Ukuran Maksimal (10 MB dalam satuan Bytes)
         const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
-        // LOGIKA METODE A: REKAM SUARA LANGSUNG
+        // METODE A: REKAM SUARA
         recordBtn.addEventListener('click', async () => {
             try {
                 if (!mediaRecorder || mediaRecorder.state === 'inactive') {
@@ -126,7 +123,6 @@
                     mediaRecorder.onstop = () => {
                         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                         
-                        // Validasi ukuran hasil rekaman langsung
                         if (audioBlob.size > MAX_FILE_SIZE) {
                             alert("Durasi rekaman terlalu panjang! Ukuran file melebihi 10 MB.");
                             resetAudioData();
@@ -140,7 +136,6 @@
                             recordStatus.innerText = "✓ Rekaman langsung siap dikirim!";
                             recordStatus.className = "text-xs text-emerald-600 font-bold mt-3";
                             
-                            // Reset pilihan input file jika user memilih rekam langsung
                             fileInput.value = "";
                             fileStatus.innerText = "Menggunakan metode rekaman langsung";
                             fileStatus.className = "text-[10px] text-emerald-600 font-medium mt-1 text-center";
@@ -153,24 +148,22 @@
                 } else {
                     mediaRecorder.stop();
                     recordBtn.classList.remove('animate-pulse', 'bg-red-600');
-                    // Stop tracks untuk mematikan ikon mic di browser
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
                 }
             } catch (err) {
-                alert("Gagal mengakses mikrofon. Pastikan Anda telah memberikan izin mikrofon di pengaturan browser.");
+                alert("Gagal mengakses mikrofon. Pastikan Anda memberikan izin mikrofon di browser.");
                 console.error(err);
             }
         });
 
-        // LOGIKA METODE B: VALIDASI & PROSES UPLOAD FILE REKAMAN
+        // METODE B: UPLOAD FILE
         fileInput.addEventListener('change', function() {
             const file = this.files[0];
             if (!file) return;
 
-            // Validasi Ukuran File (Maksimal 10 MB)
             if (file.size > MAX_FILE_SIZE) {
-                alert("Gagal memilih file! Ukuran file " + (file.size / (1024 * 1024)).toFixed(2) + " MB melebihi batas maksimal 10 MB.");
-                this.value = ""; // Reset input
+                alert("Gagal memilih file! Ukuran melebihi batas maksimal 10 MB.");
+                this.value = "";
                 return;
             }
 
@@ -181,7 +174,6 @@
                 fileStatus.innerText = "✓ File (" + file.name + ") siap dikirim!";
                 fileStatus.className = "text-[10px] text-emerald-600 font-bold mt-1 text-center";
                 
-                // Reset status rekaman langsung jika user pindah menggunakan upload file
                 if(mediaRecorder && mediaRecorder.state !== 'inactive') {
                     mediaRecorder.stop();
                     recordBtn.classList.remove('animate-pulse', 'bg-red-600');
@@ -200,12 +192,12 @@
             fileStatus.className = "text-[10px] text-slate-400 mt-1 text-center";
         }
 
-        // PROSES SUBMIT / KIRIM DATA KE GOOGLE APPS SCRIPT
+        // PROSES KIRIM DATA (FETCH)
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
             if(!audioBase64) {
-                alert("Harap pilih salah satu metode: Rekam langsung atau Upload file audio terlebih dahulu!");
+                alert("Harap rekam langsung atau upload file audio terlebih dahulu!");
                 return;
             }
 
@@ -218,8 +210,10 @@
             formData.append('surah', document.getElementById('surahAyat').value);
             formData.append('audioData', audioBase64);
 
-            // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI BAWAH INI
-            const webAppUrl = "https://script.google.com/macros/s/AKfycbxKjUWL7nE-dXmf1cZkrXb5ArroigPOEASq-erKoPTPCzJRHPWHFWvLHa2x1gE_-l1J/exec";
+            // =========================================================================
+            // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI BAWAH INI (Akhiran /exec)
+            // =========================================================================
+            const webAppUrl = "https://script.google.com/macros/s/AKfycbxAIfNUTdZyr8xhvbECjjILpdSNhNuR9h_ejQGx-fbo3HlXYQuzZTNFUPQJ0rJP-j1R/exec";
 
             fetch(webAppUrl, {
                 method: 'POST',
@@ -229,8 +223,10 @@
             .then(res => res.json())
             .then(data => {
                 alert(data.message);
-                form.reset();
-                resetAudioData();
+                if(data.status === "success") {
+                    form.reset();
+                    resetAudioData();
+                }
                 submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
                 submitBtn.disabled = false;
             })
