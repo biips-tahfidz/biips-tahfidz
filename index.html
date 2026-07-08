@@ -1,16 +1,12 @@
-HTML
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Setoran Tahfidz & Murojaah - BIIPS Blora</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- Google Fonts Premium Look -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Cairo:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=400;500;600;700&family=Cairo:wght=600;700&display=swap" rel="stylesheet">
     
-    <!-- Custom Color Config untuk menyamakan dengan Logo BIIPS -->
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .bg-biips-navy { background-color: #1B365D; }
@@ -23,64 +19,17 @@ HTML
         .focus-biips-gold:focus { border-color: #C5A059; --tw-ring-color: #C5A059; }
     </style>
 </head>
-  <script>
-   let mediaRecorder;
-let audioChunks = [];
-let audioBase64 = "";
-const recordBtn = document.getElementById('recordBtn');
-const recordStatus = document.getElementById('recordStatus');
-const form = document.getElementById('tahfidzForm');
-
-recordBtn.addEventListener('click', async () => {
-    try {
-        if (!mediaRecorder || mediaRecorder.state === 'inactive') {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            
-            mediaRecorder.dataavailable = e => {
-                if (e.data.size > 0) audioChunks.push(e.data);
-            };
-            
-            mediaRecorder.onstop = () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                const reader = new FileReader();
-                reader.readAsDataURL(audioBlob);
-                reader.onloadend = () => {
-                    audioBase64 = reader.result;
-                    recordStatus.innerText = "✓ Rekaman siap dikirim!";
-                    recordStatus.className = "text-xs text-emerald-600 font-bold mt-3";
-                };
-            };
-
-            mediaRecorder.start();
-            recordStatus.innerText = "🔴 Sedang merekam suara...";
-            recordBtn.classList.add('animate-pulse', 'bg-red-600');
-        } else {
-            mediaRecorder.stop();
-            recordBtn.classList.remove('animate-pulse', 'bg-red-600');
-        }
-    } catch (err) {
-        alert("Gagal mengakses mikrofon. Pastikan izin sudah diberikan!");
-        console.error(err);
-    }
-});
-</script>
 <body class="bg-slate-50 min-h-screen flex flex-col justify-between">
 
-    <!-- HEADER / BRANDING BIIPS -->
     <header class="bg-biips-navy text-white py-8 px-4 shadow-lg text-center rounded-b-[2rem] border-b-4 border-biips-gold">
-        <!-- Wadah Logo BIIPS -->
         <div class="w-24 h-24 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-md p-1">
-            <!-- Ganti src dengan file logo 'logo biips.jpg' Anda nantinya -->
-            <img src="logo biips.jpg" alt="Logo BIIPS" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='block';">
+            <img src="logo.jpg" alt="Logo BIIPS" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'; document.getElementById('logo-placeholder').style.display='block';">
             <span id="logo-placeholder" class="text-biips-navy font-bold text-[10px] text-center hidden">BIIPS<br>BLORA</span>
         </div>
         <h1 class="text-xl font-bold tracking-wide uppercase">Bina Ilmu Islamic Primary School</h1>
         <p class="text-slate-300 text-xs mt-1 font-light tracking-widest">PORTAL SETORAN TAHFIDZ & MUROJAAH</p>
     </header>
 
-    <!-- FORM UTAMA -->
     <main class="max-w-md w-full mx-auto px-4 my-8 flex-grow">
         <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-100">
             <div class="text-center mb-6">
@@ -89,13 +38,11 @@ recordBtn.addEventListener('click', async () => {
             </div>
             
             <form id="tahfidzForm" class="space-y-5">
-                <!-- Nama Santri -->
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Nama Lengkap Santri</label>
-                    <input type="text" placeholder="Masukkan nama lengkap" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus-biips-gold text-sm shadow-sm" required>
+                    <input type="text" id="namaSantri" placeholder="Masukkan nama lengkap" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus-biips-gold text-sm shadow-sm" required>
                 </div>
 
-                <!-- Jenis Setoran -->
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Jenis Program</label>
                     <div class="grid grid-cols-2 gap-3">
@@ -110,38 +57,187 @@ recordBtn.addEventListener('click', async () => {
                     </div>
                 </div>
 
-                <!-- Surah / Ayat -->
                 <div>
                     <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1">Surah / Ayat / Juz</label>
-                    <input type="text" placeholder="Contoh: Juz 30 / An-Naba' 1-10" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus-biips-gold text-sm shadow-sm" required>
+                    <input type="text" id="surahAyat" placeholder="Contoh: Juz 30 / An-Naba' 1-10" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus-biips-gold text-sm shadow-sm" required>
                 </div>
 
-                <!-- Area Rekaman Elegan -->
-                <div class="bg-slate-50 rounded-xl p-5 border border-dashed border-slate-300 text-center transition-all">
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Rekam Audio Hafalan</label>
-                    
-                    <!-- Tombol Rekam -->
-                    <button type="button" id="recordBtn" class="mx-auto w-16 h-16 bg-biips-navy hover:opacity-90 text-white rounded-full flex items-center justify-center shadow-lg transition-all active:scale-95 border-2 border-biips-gold">
-                        <!-- Icon Mikrofon Putih -->
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <p id="recordStatus" class="text-xs text-slate-400 mt-3 font-medium">Ketuk tombol untuk mulai merekam</p>
+                <div class="space-y-4">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-dashed border-slate-300 text-center">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Metode A: Rekam Langsung</label>
+                        <button type="button" id="recordBtn" class="mx-auto w-16 h-16 bg-biips-navy hover:opacity-90 text-white rounded-full flex items-center justify-center shadow-lg transition-all active:scale-95 border-2 border-biips-gold">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        <p id="recordStatus" class="text-xs text-slate-400 mt-3 font-medium">Ketuk tombol untuk mulai merekam</p>
+                    </div>
+
+                    <div class="text-center text-xs text-slate-400 font-bold uppercase">— ATAU —</div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 border border-slate-200">
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2 text-center">Metode B: Upload File Rekaman (Maks 10MB)</label>
+                        <input type="file" id="audioFile" accept="audio/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-biips-navy hover:file:bg-blue-100">
+                        <p id="fileStatus" class="text-[10px] text-slate-400 mt-1 text-center">Format dokumen: .mp3, .m4a, .wav, .ogg, dll.</p>
+                    </div>
                 </div>
 
-                <!-- Tombol Submit Emas -->
-                <button type="submit" class="w-full bg-biips-gold hover:bg-[#B38F46] text-white font-bold py-3.5 rounded-xl shadow-md transition-colors text-sm uppercase tracking-wider">
+                <button type="submit" id="submitBtn" class="w-full bg-biips-gold hover:bg-[#B38F46] text-white font-bold py-3.5 rounded-xl shadow-md transition-colors text-sm uppercase tracking-wider">
                     Kirim Rekaman Ke Ustadz
                 </button>
             </form>
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="text-center py-4 text-[11px] text-slate-400 font-medium tracking-wide">
         &copy; 2026 BIIPS Blora - Jawa Tengah. All Rights Reserved.
     </footer>
 
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let audioBase64 = "";
+
+        const recordBtn = document.getElementById('recordBtn');
+        const recordStatus = document.getElementById('recordStatus');
+        const fileInput = document.getElementById('audioFile');
+        const fileStatus = document.getElementById('fileStatus');
+        const form = document.getElementById('tahfidzForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Batasan Ukuran Maksimal (10 MB dalam satuan Bytes)
+        const MAX_FILE_SIZE = 10 * 1024 * 1024;
+
+        // LOGIKA METODE A: REKAM SUARA LANGSUNG
+        recordBtn.addEventListener('click', async () => {
+            try {
+                if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = e => {
+                        if (e.data.size > 0) audioChunks.push(e.data);
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                        
+                        // Validasi ukuran hasil rekaman langsung
+                        if (audioBlob.size > MAX_FILE_SIZE) {
+                            alert("Durasi rekaman terlalu panjang! Ukuran file melebihi 10 MB.");
+                            resetAudioData();
+                            return;
+                        }
+
+                        const reader = new FileReader();
+                        reader.readAsDataURL(audioBlob);
+                        reader.onloadend = () => {
+                            audioBase64 = reader.result;
+                            recordStatus.innerText = "✓ Rekaman langsung siap dikirim!";
+                            recordStatus.className = "text-xs text-emerald-600 font-bold mt-3";
+                            
+                            // Reset pilihan input file jika user memilih rekam langsung
+                            fileInput.value = "";
+                            fileStatus.innerText = "Menggunakan metode rekaman langsung";
+                            fileStatus.className = "text-[10px] text-emerald-600 font-medium mt-1 text-center";
+                        };
+                    };
+
+                    mediaRecorder.start();
+                    recordStatus.innerText = "🔴 Sedang merekam suara... Ketuk lagi untuk stop.";
+                    recordBtn.classList.add('animate-pulse', 'bg-red-600');
+                } else {
+                    mediaRecorder.stop();
+                    recordBtn.classList.remove('animate-pulse', 'bg-red-600');
+                    // Stop tracks untuk mematikan ikon mic di browser
+                    mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                }
+            } catch (err) {
+                alert("Gagal mengakses mikrofon. Pastikan Anda telah memberikan izin mikrofon di pengaturan browser.");
+                console.error(err);
+            }
+        });
+
+        // LOGIKA METODE B: VALIDASI & PROSES UPLOAD FILE REKAMAN
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            // Validasi Ukuran File (Maksimal 10 MB)
+            if (file.size > MAX_FILE_SIZE) {
+                alert("Gagal memilih file! Ukuran file " + (file.size / (1024 * 1024)).toFixed(2) + " MB melebihi batas maksimal 10 MB.");
+                this.value = ""; // Reset input
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onloadend = () => {
+                audioBase64 = reader.result;
+                fileStatus.innerText = "✓ File (" + file.name + ") siap dikirim!";
+                fileStatus.className = "text-[10px] text-emerald-600 font-bold mt-1 text-center";
+                
+                // Reset status rekaman langsung jika user pindah menggunakan upload file
+                if(mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                    recordBtn.classList.remove('animate-pulse', 'bg-red-600');
+                }
+                recordStatus.innerText = "Menggunakan file unggahan";
+                recordStatus.className = "text-xs text-slate-400 mt-3 font-medium";
+            };
+        });
+
+        function resetAudioData() {
+            audioBase64 = "";
+            fileInput.value = "";
+            recordStatus.innerText = "Ketuk tombol untuk mulai merekam";
+            recordStatus.className = "text-xs text-slate-400 mt-3 font-medium";
+            fileStatus.innerText = "Format dokumen: .mp3, .m4a, .wav, .ogg, dll.";
+            fileStatus.className = "text-[10px] text-slate-400 mt-1 text-center";
+        }
+
+        // PROSES SUBMIT / KIRIM DATA KE GOOGLE APPS SCRIPT
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if(!audioBase64) {
+                alert("Harap pilih salah satu metode: Rekam langsung atau Upload file audio terlebih dahulu!");
+                return;
+            }
+
+            submitBtn.innerText = "Sedang Mengirim ke Ustadz...";
+            submitBtn.disabled = true;
+
+            const formData = new URLSearchParams();
+            formData.append('nama', document.getElementById('namaSantri').value);
+            formData.append('jenis', form.querySelector('input[name="jenis"]:checked').value);
+            formData.append('surah', document.getElementById('surahAyat').value);
+            formData.append('audioData', audioBase64);
+
+            // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI BAWAH INI
+            const webAppUrl = "PASTE_URL_WEB_APP_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI";
+
+            fetch(webAppUrl, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                form.reset();
+                resetAudioData();
+                submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
+                submitBtn.disabled = false;
+            })
+            .catch(err => {
+                alert("Terjadi gangguan jaringan atau URL Google Script tidak valid. Silakan coba kembali.");
+                submitBtn.innerText = "Kirim Rekaman Ke Ustadz";
+                submitBtn.disabled = false;
+                console.error(err);
+            });
+        });
+    </script>
 </body>
 </html>
