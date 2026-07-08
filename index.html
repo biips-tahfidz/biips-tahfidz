@@ -6,35 +6,36 @@
   <title>Aplikasi Setoran Tahfidz BIIPS</title>
   
   <style>
-    /* Mengunci agar seluruh konten utama mutlak berada di tengah layar laptop/PC */
+    /* Mengunci ukuran layar penuh */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-      display: flex; 
-      justify-content: center; /* Mengetengahkan secara horizontal */
-      align-items: center;     /* Mengetengahkan secara vertikal */
+    /* KUNCI UTAMA: Pembungkus Flexbox agar semua konten didalamnya MUTLAK di tengah layar laptop */
+    .flex-center-wrapper {
+      display: flex;
+      justify-content: center; /* Ketengah secara horizontal (Kanan-Kiri) */
+      align-items: center;     /* Ketengah secara vertikal (Atas-Bawah) */
       min-height: 100vh;
+      width: 100%;
       box-sizing: border-box;
+      padding: 20px;
     }
     
     /* Style Box Utama (Login & Form Santri) */
     .container-box {
       background: #ffffff; 
       max-width: 460px; 
-      width: 90%; 
+      width: 100%; 
       padding: 35px; 
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
       text-align: center; 
       box-sizing: border-box;
-      /* KUNCI UTAMA: Memaksa box tetap di tengah walaupun dipanggil secara dinamis */
-      margin: auto !important; 
     }
     
     .header-logo { width: 100px; height: auto; margin-bottom: 15px; border-radius: 50%; }
@@ -75,59 +76,62 @@
 </head>
 <body>
 
-  <div id="loginSection" class="container-box">
-    <img src="logobiips.jpg" alt="Logo BIIPS" class="header-logo" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
-    <h2>Aplikasi Setoran Tahfidz</h2>
-    <p class="subtitle">Bina Insan Islamic Progressive School</p>
-    <div class="input-group">
-      <label>Username / NIS</label>
-      <input type="text" id="username" placeholder="Masukkan username Anda...">
-    </div>
-    <div class="input-group">
-      <label>Password</label>
-      <input type="password" id="password" placeholder="Masukkan password Anda...">
-    </div>
-    <button class="btn-primary" onclick="handleLogin()">Masuk Aplikasi</button>
-    <p id="loginMessage" style="font-size:14px; font-weight:500; margin-top:15px;"></p>
-  </div>
-
-
-  <div id="santriPage" class="container-box" style="display: none;">
-    <img src="logobiips.jpg" alt="Logo BIIPS" class="header-logo" style="width:70px;" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
-    <h2>Form Setoran Hafalan</h2>
-    <p class="subtitle" style="margin-bottom:15px;">Silakan isi rincian ayat dan rekam hafalanmu</p>
-    <hr style="border:0; border-top:1px solid #eee; margin-bottom: 15px;">
-
-    <div class="input-group">
-      <label>Nama / Kelas Santri</label>
-      <div style="display: flex; gap: 10px;">
-        <input type="text" id="namaSantri" readonly style="background-color: #f1f2f6; color: #555; flex: 2;">
-        <input type="text" id="kelasSantri" readonly style="background-color: #f1f2f6; color: #555; flex: 1; text-align: center; font-weight: bold;">
+  <div id="centeredWrapper" class="flex-center-wrapper">
+    
+    <div id="loginSection" class="container-box">
+      <img src="logobiips.jpg" alt="Logo BIIPS" class="header-logo" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
+      <h2>Aplikasi Setoran Tahfidz</h2>
+      <p class="subtitle">Bina Insan Islamic Progressive School</p>
+      <div class="input-group">
+        <label>Username / NIS</label>
+        <input type="text" id="username" placeholder="Masukkan username Anda...">
       </div>
-    </div>
-
-    <div class="input-group">
-      <label>Jenis Program</label>
-      <select id="jenisProgram">
-        <option value="Tahfidz">Tahfidz (Hafalan Baru)</option>
-        <option value="Murojaah">Murojaah (Mengulang Hafalan)</option>
-      </select>
-    </div>
-
-    <div class="input-group">
-      <label>Surah / Ayat yang Disetor</label>
-      <input type="text" id="surahAyat" placeholder="Contoh: Al-Mulk ayat 1-10">
-    </div>
-
-    <div style="margin: 20px 0;">
-      <button id="recordBtn" class="btn-record" onclick="toggleRecording()">🎙️ Mulai Rekam Suara</button>
-      <div id="audioPlaybackContainer" style="margin-top: 15px; display: none;">
-        <audio id="audioPlayback" controls style="width:100%;"></audio>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Masukkan password Anda...">
       </div>
+      <button class="btn-primary" onclick="handleLogin()">Masuk Aplikasi</button>
+      <p id="loginMessage" style="font-size:14px; font-weight:500; margin-top:15px;"></p>
     </div>
 
-    <button id="submitBtn" class="btn-primary" onclick="kirimSetoran()" disabled>Kirim Setoran Ke Ustadz</button>
-    <p id="statusMessage"></p>
+    <div id="santriPage" class="container-box" style="display: none;">
+      <img src="logobiips.jpg" alt="Logo BIIPS" class="header-logo" style="width:70px;" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
+      <h2>Form Setoran Hafalan</h2>
+      <p class="subtitle" style="margin-bottom:15px;">Silakan isi rincian ayat dan rekam hafalanmu</p>
+      <hr style="border:0; border-top:1px solid #eee; margin-bottom: 15px;">
+
+      <div class="input-group">
+        <label>Nama / Kelas Santri</label>
+        <div style="display: flex; gap: 10px;">
+          <input type="text" id="namaSantri" readonly style="background-color: #f1f2f6; color: #555; flex: 2;">
+          <input type="text" id="kelasSantri" readonly style="background-color: #f1f2f6; color: #555; flex: 1; text-align: center; font-weight: bold;">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Jenis Program</label>
+        <select id="jenisProgram">
+          <option value="Tahfidz">Tahfidz (Hafalan Baru)</option>
+          <option value="Murojaah">Murojaah (Mengulang Hafalan)</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <label>Surah / Ayat yang Disetor</label>
+        <input type="text" id="surahAyat" placeholder="Contoh: Al-Mulk ayat 1-10">
+      </div>
+
+      <div style="margin: 20px 0;">
+        <button id="recordBtn" class="btn-record" onclick="toggleRecording()">🎙️ Mulai Rekam Suara</button>
+        <div id="audioPlaybackContainer" style="margin-top: 15px; display: none;">
+          <audio id="audioPlayback" controls style="width:100%;"></audio>
+        </div>
+      </div>
+
+      <button id="submitBtn" class="btn-primary" onclick="kirimSetoran()" disabled>Kirim Setoran Ke Ustadz</button>
+      <p id="statusMessage"></p>
+    </div>
+
   </div>
 
 
@@ -189,26 +193,19 @@
         .then(response => response.json())
         .then(data => {
           if (data.status === "success") {
-            // Sembunyikan bagian login terlebih dahulu
-            document.getElementById("loginSection").style.display = "none";
-            
             sessionUser.role = data.role;
             sessionUser.kelas = data.kelas;
             sessionUser.username = user;
 
             if (data.role === "santri") {
-              // TETAPKAN MODE FLEX KETENGAH UNTUK SANTRI
-              document.body.style.display = "flex";
-              document.body.style.justifyContent = "center";
-              document.body.style.alignItems = "center";
-              
+              // Sembunyikan login, tampilkan halaman santri (wrapper ketengah tetap aktif)
+              document.getElementById("loginSection").style.display = "none";
               document.getElementById("santriPage").style.display = "block";
               document.getElementById("namaSantri").value = user;
               document.getElementById("kelasSantri").value = data.kelas;
             } else {
-              // MATIKAN MODE FLEX JIKA GURU MASUK AGAR TABEL LEBAR PENUH
-              document.body.style.display = "block";
-              document.body.style.background = "#f4f6f9"; 
+              // Jika guru/mudir, hancurkan pembungkus tengah agar tabel laporan bisa melebar penuh di laptop
+              document.getElementById("centeredWrapper").style.display = "none";
               
               document.getElementById("guruPage").style.display = "block";
               if(data.role === "mudir") {
