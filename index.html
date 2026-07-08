@@ -6,30 +6,35 @@
   <title>Aplikasi Setoran Tahfidz BIIPS</title>
   
   <style>
-    /* Mengatur agar semua halaman utama (Login & Santri) otomatis berada di tengah layar */
+    /* Mengunci agar seluruh konten utama mutlak berada di tengah layar laptop/PC */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-      margin: 0; padding: 0;
       display: flex; 
-      flex-direction: column;
-      justify-content: center; 
-      align-items: center; 
+      justify-content: center; /* Mengetengahkan secara horizontal */
+      align-items: center;     /* Mengetengahkan secara vertikal */
       min-height: 100vh;
       box-sizing: border-box;
     }
     
-    /* Style Box Utama (Untuk Login & Form Santri) */
+    /* Style Box Utama (Login & Form Santri) */
     .container-box {
       background: #ffffff; 
-      max-width: 480px; /* Lebar maksimal box di laptop agar tetap proporsional */
+      max-width: 460px; 
       width: 90%; 
       padding: 35px; 
       border-radius: 15px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); 
       text-align: center; 
       box-sizing: border-box;
-      margin: 20px auto; /* Memastikan margin otomatis seimbang kanan-kiri */
+      /* KUNCI UTAMA: Memaksa box tetap di tengah walaupun dipanggil secara dinamis */
+      margin: auto !important; 
     }
     
     .header-logo { width: 100px; height: auto; margin-bottom: 15px; border-radius: 50%; }
@@ -60,7 +65,7 @@
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     #statusMessage { font-size: 14px; margin-top: 15px; font-weight: 500; }
     
-    /* Layout Khusus Laporan Guru (Lebih lebar karena berupa Tabel Data) */
+    /* Layout Khusus Laporan Guru / Mudir (Lebih lebar karena berupa Tabel Data) */
     #guruPage { background: white; width: 95%; max-width: 1100px; padding: 30px; border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); margin: 30px auto; display: none; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 15px; margin-top: 15px; }
     th { background-color: #16a085; color: white; padding: 12px; }
@@ -184,8 +189,7 @@
         .then(response => response.json())
         .then(data => {
           if (data.status === "success") {
-            document.body.style.background = "#f4f6f9"; 
-            document.body.style.display = "block"; // Reset dari flex agar halaman guru lebar penuh
+            // Sembunyikan bagian login terlebih dahulu
             document.getElementById("loginSection").style.display = "none";
             
             sessionUser.role = data.role;
@@ -193,12 +197,19 @@
             sessionUser.username = user;
 
             if (data.role === "santri") {
-              // Menjaga struktur body flex tetap bekerja untuk halaman santri agar selalu center
+              // TETAPKAN MODE FLEX KETENGAH UNTUK SANTRI
               document.body.style.display = "flex";
+              document.body.style.justifyContent = "center";
+              document.body.style.alignItems = "center";
+              
               document.getElementById("santriPage").style.display = "block";
               document.getElementById("namaSantri").value = user;
               document.getElementById("kelasSantri").value = data.kelas;
             } else {
+              // MATIKAN MODE FLEX JIKA GURU MASUK AGAR TABEL LEBAR PENUH
+              document.body.style.display = "block";
+              document.body.style.background = "#f4f6f9"; 
+              
               document.getElementById("guruPage").style.display = "block";
               if(data.role === "mudir") {
                 document.getElementById("titleDashboard").innerText = "Dashboard Utama Mudir";
