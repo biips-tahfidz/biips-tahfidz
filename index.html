@@ -157,15 +157,41 @@
   <!-- ========================================== -->
   <!-- HALAMAN INFORMASI UTUK GURU / USTADZ -->
   <!-- ========================================== -->
-  <div id="guruPage" style="display: none;">
-    <h2 style="color: #2c3e50;">Ahlan Wa Sahlan, Ustadz/Ustadzah pengampu</h2>
-    <hr style="border:0; border-top: 1px solid #eee; margin: 20px 0;">
-    <p style="font-size: 16px; color: #555; line-height: 1.6;">
-      Untuk melakukan pengecekan, koreksi, dan mendengarkan rekaman audio hafalan para santri, silakan buka dokumen <b>Google Sheets (Data Setoran Santri)</b>.
-    </p>
-    <p style="font-size: 15px; color: #16a085; font-weight: bold;">
-      💡 Gunakan Menu internal "🎵 Pemutar Audio BIIPS" pada Google Sheets untuk memutar audio instan.
-    </p>
+ <div id="guruPage" style="display: none; width: 95%; max-width: 1000px; margin: 30px auto;">
+    <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);">
+      
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+        <div style="text-align: left;">
+          <h2 style="color: #2c3e50; margin: 0; font-size: 24px;">Laporan Setoran Tahfidz Santri</h2>
+          <p style="color: #7f8c8d; margin: 5px 0 0 0; font-size: 14px;">Bina Insan Islamic Progressive School</p>
+        </div>
+        <button onclick="muatUlangLaporan()" style="padding: 10px 18px; background: #16a085; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.3s;">
+          🔄 Segarkan Data
+        </button>
+      </div>
+      
+      <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 15px;">
+          <thead>
+            <tr style="background-color: #16a085; color: white;">
+              <th style="padding: 12px; border-radius: 6px 0 0 6px;">Tanggal / Waktu</th>
+              <th style="padding: 12px;">Nama Santri</th>
+              <th style="padding: 12px;">Program</th>
+              <th style="padding: 12px;">Surah / Ayat</th>
+              <th style="padding: 12px; border-radius: 0 6px 6px 0; text-align: center; width: 280px;">Dengarkan Audio</th>
+            </tr>
+          </thead>
+          <tbody id="tabelSetoranBody">
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 30px; color: #7f8c8d;">Sedang memuat data setoran...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
   </div>
 
 
