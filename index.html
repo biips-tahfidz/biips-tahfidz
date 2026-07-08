@@ -9,37 +9,17 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center; min-height: 100vh;
     }
-    
-    /* Style Box Utama (Login & Form Santri) */
     .container-box {
-      background: #ffffff;
-      max-width: 450px;
-      width: 90%;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      box-sizing: border-box;
+      background: #ffffff; max-width: 450px; width: 90%; padding: 30px; border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); text-align: center; box-sizing: border-box;
     }
-    
-    .header-logo {
-      width: 100px;
-      height: auto;
-      margin-bottom: 15px;
-      border-radius: 50%;
-    }
-    
+    .header-logo { width: 100px; height: auto; margin-bottom: 15px; border-radius: 50%; }
     h2 { color: #2c3e50; margin-bottom: 5px; font-size: 24px; }
     p.subtitle { color: #7f8c8d; font-size: 14px; margin-top: 0; margin-bottom: 25px; }
     
-    /* Elemen Input */
     .input-group { text-align: left; margin-bottom: 18px; }
     .input-group label { display: block; font-size: 14px; color: #34495e; margin-bottom: 6px; font-weight: 600; }
     .input-group input, .input-group select { 
@@ -47,31 +27,25 @@
     }
     .input-group input:focus, .input-group select:focus { border-color: #16a085; outline: none; }
     
-    /* Tombol-tombol */
     .btn-primary { 
       width: 100%; padding: 12px; background: #16a085; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(22, 160, 133, 0.2); transition: 0.3s;
     }
     .btn-primary:hover { background: #117a65; }
+    .btn-primary:disabled { background-color: #bdc3c7; cursor: not-allowed; box-shadow: none; }
     
     .btn-record {
-      background: #e74c3c; color: white; padding: 10px 20px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.3s;
+      background: #e74c3c; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.3s; width: 100%; font-size: 15px;
     }
-    .btn-record:hover { background: #c0392b; }
     .btn-record.recording { background: #f39c12; animation: pulse 1.5s infinite; }
     
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
     #statusMessage { font-size: 14px; margin-top: 15px; font-weight: 500; }
     
-    /* Style Halaman Laporan Guru (Lebih Lebar) */
-    #guruPage { background: white; width: 95%; max-width: 1000px; padding: 30px; border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); margin: 30px auto; }
+    #guruPage { background: white; width: 95%; max-width: 1000px; padding: 30px; border-radius: 15px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); margin: 30px auto; display: none; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 15px; margin-top: 15px; }
     th { background-color: #16a085; color: white; padding: 12px; }
     td { padding: 12px; border-bottom: 1px solid #eee; }
+    .badge-kelas { background: #3498db; color: white; padding: 3px 7px; border-radius: 4px; font-size: 12px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -80,17 +54,14 @@
     <img src="logobiips.jpg" alt="Logo BIIPS" class="header-logo" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
     <h2>Aplikasi Setoran Tahfidz</h2>
     <p class="subtitle">Bina Insan Islamic Progressive School</p>
-    
     <div class="input-group">
       <label>Username / NIS</label>
       <input type="text" id="username" placeholder="Masukkan username Anda...">
     </div>
-    
     <div class="input-group">
       <label>Password</label>
       <input type="password" id="password" placeholder="Masukkan password Anda...">
     </div>
-    
     <button class="btn-primary" onclick="handleLogin()">Masuk Aplikasi</button>
     <p id="loginMessage" style="font-size:14px; font-weight:500; margin-top:15px;"></p>
   </div>
@@ -99,12 +70,15 @@
   <div id="santriPage" class="container-box" style="display: none;">
     <img src="logobiips.jpg" alt="Logo BIIPS" class="header-logo" style="width:70px;" onerror="this.src='https://placehold.co/100x100?text=BIIPS'">
     <h2>Form Setoran Hafalan</h2>
-    <p class="subtitle" style="margin-bottom:15px;">Silakan rekam suara hafalan terbaikmu</p>
+    <p class="subtitle" style="margin-bottom:15px;">Silakan isi rincian ayat dan rekam hafalanmu</p>
     <hr style="border:0; border-top:1px solid #eee; margin-bottom: 15px;">
 
     <div class="input-group">
-      <label>Nama Santri</label>
-      <input type="text" id="namaSantri" readonly style="background-color: #f1f2f6; color: #555;">
+      <label>Nama / Kelas Santri</label>
+      <div style="display: flex; gap: 10px;">
+        <input type="text" id="namaSantri" readonly style="background-color: #f1f2f6; color: #555; flex: 2;">
+        <input type="text" id="kelasSantri" readonly style="background-color: #f1f2f6; color: #555; flex: 1; text-align: center; font-weight: bold;">
+      </div>
     </div>
 
     <div class="input-group">
@@ -116,27 +90,27 @@
     </div>
 
     <div class="input-group">
-      <label>Surah / Ayat</label>
-      <input type="text" id="surahAyat" placeholder="Contoh: An-Nas ayat 1-6">
+      <label>Surah / Ayat yang Disetor</label>
+      <input type="text" id="surahAyat" placeholder="Contoh: Al-Mulk ayat 1-10">
     </div>
 
     <div style="margin: 20px 0;">
-      <button id="recordBtn" class="btn-record" onclick="toggleRecording()">🎙️ Mulai Rekam</button>
-      <div id="audioPlaybackContainer" style="margin-top: 10px; display: none;">
+      <button id="recordBtn" class="btn-record" onclick="toggleRecording()">🎙️ Mulai Rekam Suara</button>
+      <div id="audioPlaybackContainer" style="margin-top: 15px; display: none;">
         <audio id="audioPlayback" controls style="width:100%;"></audio>
       </div>
     </div>
 
-    <button id="submitBtn" class="btn-primary" onclick="kirimSetoran()" disabled style="background-color: #bdc3c7; cursor: not-allowed; box-shadow: none;">Kirim Setoran Hafalan</button>
+    <button id="submitBtn" class="btn-primary" onclick="kirimSetoran()" disabled>Kirim Setoran Ke Ustadz</button>
     <p id="statusMessage"></p>
   </div>
 
 
-  <div id="guruPage" style="display: none;">
+  <div id="guruPage">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
       <div>
-        <h2 style="color: #2c3e50; margin: 0;">Laporan Setoran Tahfidz Santri</h2>
-        <p style="color: #7f8c8d; margin: 5px 0 0 0; font-size: 14px;">Bina Insan Islamic Progressive School</p>
+        <h2 style="color: #2c3e50; margin: 0;" id="titleDashboard">Laporan Setoran Tahfidz Santri</h2>
+        <p style="color: #7f8c8d; margin: 5px 0 0 0; font-size: 14px;" id="subTitleDashboard">Bina Insan Islamic Progressive School</p>
       </div>
       <button onclick="muatUlangLaporan()" style="padding: 10px 18px; background: #16a085; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">🔄 Segarkan Data</button>
     </div>
@@ -148,13 +122,14 @@
           <tr>
             <th>Waktu Kirim</th>
             <th>Nama Santri</th>
+            <th>Kelas</th>
             <th>Program</th>
             <th>Surah / Ayat</th>
             <th style="text-align: center; width: 280px;">Dengarkan Audio</th>
           </tr>
         </thead>
         <tbody id="tabelSetoranBody">
-          <tr><td colspan="5" style="text-align: center; padding: 20px; color: #7f8c8d;">Memuat data...</td></tr>
+          <tr><td colspan="6" style="text-align: center; padding: 20px; color: #7f8c8d;">Memuat data...</td></tr>
         </tbody>
       </table>
     </div>
@@ -162,15 +137,16 @@
 
 
   <script>
-    // Link Apps Script Anda yang sudah diintegrasikan langsung
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz-QjXovWu-jSzr0iKHRuGQ8UzawhDBlnLSI9gowlKSSIDDyoNw5bZLjjssSRqTCb_ePQ/exec";
+    // Link Apps Script terbaru Anda yang sudah diintegrasikan langsung
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw0DxNoYiQnUQVN5QRN3XAPu69Lt4o_wGX_VFCCYmRqeNzyKIWmz1Dw1jnDQm9SoCB-XA/exec";
 
     let mediaRecorder;
     let audioChunks = [];
     let audioBase64 = "";
     let isRecording = false;
+    let sessionUser = { role: "", kelas: "", username: "" };
 
-    // --- 1. LOGIC UTAMA: SISTEM LOGIN ---
+    // --- 1. SYSTEM LOGIN HANDLING ---
     function handleLogin() {
       const user = document.getElementById("username").value.trim();
       const pass = document.getElementById("password").value.trim();
@@ -178,12 +154,12 @@
       
       if(!user || !pass) {
         msg.style.color = "#e74c3c";
-        msg.innerText = "⚠️ Kolom tidak boleh kosong!";
+        msg.innerText = "⚠️ Username & Password wajib diisi!";
         return;
       }
       
       msg.style.color = "#16a085";
-      msg.innerText = "⏳ Memverifikasi akun...";
+      msg.innerText = "⏳ Memverifikasi hak akses...";
       
       fetch(`${WEB_APP_URL}?action=login&username=${encodeURIComponent(user)}&password=${encodeURIComponent(pass)}`)
         .then(response => response.json())
@@ -193,11 +169,23 @@
             document.body.style.display = "block"; 
             document.getElementById("loginSection").style.display = "none";
             
+            sessionUser.role = data.role;
+            sessionUser.kelas = data.kelas;
+            sessionUser.username = user;
+
             if (data.role === "santri") {
               document.getElementById("santriPage").style.display = "inline-block";
-              document.getElementById("namaSantri").value = user; // Set nama otomatis dari username
-            } else if (data.role === "guru") {
+              document.getElementById("namaSantri").value = user;
+              document.getElementById("kelasSantri").value = data.kelas;
+            } else {
               document.getElementById("guruPage").style.display = "block";
+              if(data.role === "mudir") {
+                document.getElementById("titleDashboard").innerText = "Dashboard Utama Mudir";
+                document.getElementById("subTitleDashboard").innerText = "Menampilkan data setoran hafalan seluruh kelas di BIIPS";
+              } else {
+                document.getElementById("titleDashboard").innerText = "Dashboard Pengampuan Kelas " + data.kelas;
+                document.getElementById("subTitleDashboard").innerText = "Menampilkan data khusus santri di kelas bimbingan Anda";
+              }
               muatUlangLaporan();
             }
           } else {
@@ -207,60 +195,49 @@
         })
         .catch(err => {
           msg.style.color = "#e74c3c";
-          msg.innerText = "🌐 Gagal terhubung ke database.";
+          msg.innerText = "🌐 Gagal terhubung ke database cloud.";
         });
     }
 
-    // --- 2. LOGIC SANTRI: PEREKAM SUARA ---
+    // --- 2. AUDIO RECORDER LOGIC (SANTRI AREA) ---
     function toggleRecording() {
       const btn = document.getElementById("recordBtn");
-      
       if (!isRecording) {
         navigator.mediaDevices.getUserMedia({ audio: true })
           .then(stream => {
             mediaRecorder = new MediaRecorder(stream);
             audioChunks = [];
-            
-            mediaRecorder.ondataavailable = event => {
-              audioChunks.push(event.data);
-            };
+            mediaRecorder.ondataavailable = event => { audioChunks.push(event.data); };
             
             mediaRecorder.onstop = () => {
               const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-              const audioUrl = URL.createObjectURL(audioBlob);
-              document.getElementById("audioPlayback").src = audioUrl;
+              document.getElementById("audioPlayback").src = URL.createObjectURL(audioBlob);
               document.getElementById("audioPlaybackContainer").style.display = "block";
               
-              // Konversi file suara ke teks base64 untuk dikirim ke Google Sheet
               const reader = new FileReader();
               reader.readAsDataURL(audioBlob);
               reader.onloadend = () => {
                 audioBase64 = reader.result;
-                // Aktifkan tombol kirim setelah rekaman selesai
                 const submitBtn = document.getElementById("submitBtn");
                 submitBtn.disabled = false;
-                submitBtn.style.backgroundColor = "#16a085";
-                submitBtn.style.cursor = "pointer";
               };
             };
             
             mediaRecorder.start();
             isRecording = true;
-            btn.innerText = "⏹️ Hentikan Rekam";
+            btn.innerText = "⏹️ Selesai / Berhenti Rekam";
             btn.classList.add("recording");
           })
-          .catch(err => {
-            alert("Gagal mengakses mikrofon: " + err);
-          });
+          .catch(err => { alert("Akses mic ditolak/gagal: " + err); });
       } else {
         mediaRecorder.stop();
         isRecording = false;
-        btn.innerText = "🎙️ Rekam Ulang";
+        btn.innerText = "🎙️ Rekam Ulang Suara";
         btn.classList.remove("recording");
       }
     }
 
-    // --- 3. LOGIC SANTRI: KIRIM DATA KE DO_POST ---
+    // --- 3. SUBMIT SETORAN (DO_POST) ---
     function kirimSetoran() {
       const nama = document.getElementById("namaSantri").value;
       const jenis = document.getElementById("jenisProgram").value;
@@ -269,49 +246,39 @@
       
       if (!surah) {
         status.style.color = "#e74c3c";
-        status.innerText = "⚠️ Harap isi nama Surah dan Ayat terlebih dahulu!";
+        status.innerText = "⚠️ Silakan ketik nama Surah & Ayat terlebih dahulu!";
         return;
       }
       
       status.style.color = "#16a085";
-      status.innerText = "⏳ Sedang mengirim hafalan ke ustadz...";
-      
-      const payload = {
-        nama: nama,
-        jenis: jenis,
-        surah: surah,
-        audioData: audioBase64
-      };
+      status.innerText = "⏳ Mengirim rekaman audio ke sistem...";
       
       fetch(WEB_APP_URL, {
         method: "POST",
-        mode: "no-cors", // Mode no-cors agar pengiriman dari browser ke Appscript berjalan mulus
+        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ nama: nama, jenis: jenis, surah: surah, audioData: audioBase64 })
       })
       .then(() => {
         status.style.color = "#27ae60";
-        status.innerText = "🎉 Alhamdulillah, rekaman Ananda " + nama + " berhasil terkirim!";
-        // Reset Form
+        status.innerText = "🎉 Sukses! Setoran hafalan Ananda berhasil terkirim.";
         document.getElementById("surahAyat").value = "";
         document.getElementById("audioPlaybackContainer").style.display = "none";
         document.getElementById("submitBtn").disabled = true;
-        document.getElementById("submitBtn").style.backgroundColor = "#bdc3c7";
-        document.getElementById("recordBtn").innerText = "🎙️ Mulai Rekam";
+        document.getElementById("recordBtn").innerText = "🎙️ Mulai Rekam Suara";
       })
       .catch(err => {
         status.style.color = "#e74c3c";
-        status.innerText = "❌ Gagal mengirim setoran. Coba lagi.";
-        console.error(err);
+        status.innerText = "❌ Gangguan pengiriman suara, coba kembali.";
       });
     }
 
-    // --- 4. LOGIC GURU: AMBIL DATA REKAMAN ---
+    // --- 4. DATA REPORTS VIEW FILTERED (GURU / MUDIR DASHBOARD) ---
     function muatUlangLaporan() {
       const tbody = document.getElementById("tabelSetoranBody");
-      tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #16a085; font-weight:bold;">⏳ Mengambil data setoran terbaru...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: #16a085; font-weight:bold;">⏳ Menyaring data setoran real-time...</td></tr>`;
       
-      fetch(`${WEB_APP_URL}?action=getSetoran`)
+      fetch(`${WEB_APP_URL}?action=getSetoran&role=${sessionUser.role}&kelas=${encodeURIComponent(sessionUser.kelas)}`)
         .then(response => response.json())
         .then(res => {
           if (res.status === "success" && res.data.length > 0) {
@@ -324,13 +291,13 @@
                 <tr style="background-color: ${rowBg};">
                   <td>${tanggal}</td>
                   <td style="font-weight: bold; color: #2c3e50;">${item.nama}</td>
+                  <td><span class="badge-kelas">${item.kelas}</span></td>
                   <td><span style="padding: 4px 8px; background: #e8f5e9; color: #2e7d32; border-radius: 4px; font-size: 13px; font-weight: bold;">${item.jenis}</span></td>
                   <td>${item.surah}</td>
                   <td style="text-align: center;">
                     <audio controls style="width: 260px; height: 35px;">
                       <source src="${item.audioData}" type="audio/webm">
                       <source src="${item.audioData}" type="audio/mpeg">
-                      Browser tidak support.
                     </audio>
                   </td>
                 </tr>
@@ -338,11 +305,11 @@
               tbody.innerHTML += rowHTML;
             });
           } else {
-            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">Belum ada data setoran masuk.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">Tidak ditemukan data setoran untuk kelas ini.</td></tr>`;
           }
         })
         .catch(err => {
-          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: #e74c3c;">❌ Gagal memuat data laporan dari Google Sheets.</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px; color: #e74c3c;">❌ Koneksi database gagal dimuat.</td></tr>`;
         });
     }
   </script>
