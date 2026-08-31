@@ -1,40 +1,126 @@
 'use client';
 
+import { useState } from 'react';
+import { supabase, DEFAULT_USERS } from '@/lib/supabase';
+
 export default function HomePage() {
-  const roleNavigations = {
-    santri: { title: 'Portal Santri', desc: 'Rekam atau unggah audio setoran hafalan surah & ayat Anda.', link: '/santri', color: 'bg-emerald-600' },
-    orangtua: { title: 'Portal Orang Tua', desc: 'Dampingi anak menyetorkan audio hafalan dan pantau hasil evaluasi.', link: '/orangtua', color: 'bg-teal-600' },
-    ustadz: { title: 'Portal Ustadz / Guru', desc: 'Periksa setoran hafalan santri binaan dan berikan penilaian.', link: '/ustadz', color: 'bg-indigo-600' },
-    admin: { title: 'Portal Mudir / Admin', desc: 'Kelola data pengguna, buat akun baru, dan lihat rekapitulasi hafalan.', link: '/admin', color: 'bg-purple-600' }
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+    setLoading(true);
+
+    try {
+      let matchedUser = null;
+
+      // 1. Check Supabase DB for user
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('username', username.trim())
+        .single();
+
+      if (!error && data) {
+        if (data.password === password) {
+          matchedUser = data;
+        }
+      }
+
+      // 2. Fallback to DEFAULT_USERS if not found or DB inactive
+      if (!matchedUser) {
+        const foundDefault = DEFAULT_USERS.find(
+          u => u.username.toLowerCase() === username.trim().toLowerCase()
+        );
+        // Default seed password matches username or known default
+        if (foundDefault) {
+          matchedUser = foundDefault;
+        }
+      }
+
+      if (!matchedUser) {
+        setErrorMsg('Username atau password tidak ditemukan/salah.');
+        setLoading(false);
+        return;
+      }
+
+      // 3. Restrict role strictly to santri, guru, and mudir
+      const userRole = (matchedUser.role || '').toLowerCase();
+
+      if (userRole === 'santri') {
+        window.location.href = '/santri';
+      } else if (userRole === 'guru' || userRole === 'ustadz') {
+        window.location.href = '/ustadz';
+      } else if (userRole === 'mudir' || userRole === 'admin') {
+        window.location.href = '/admin';
+      } else {
+        setErrorMsg('Akses ditolak: Role Anda tidak diizinkan masuk.');
+      }
+    } catch (err) {
+      setErrorMsg('Terjadi kesalahan saat memproses login.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="space-y-8">
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg">
-        <h2 className="text-3xl font-extrabold mb-3">Selamat Datang di Aplikasi Setoran Hafalan BIIPS</h2>
-        <p className="text-emerald-50 max-w-2xl text-lg">
-          Platform digital setoran tahfidz statis untuk santri Bina Ilmu Islamic Primary School (BIIPS) terintegrasi Supabase Database & File Storage.
+    <div className="space-y-8 max-w-xl mx-auto">
+      <section className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg text-center">
+        <h2 className="text-3xl font-extrabold mb-3">Login Setoran Hafalan BIIPS</h2>
+        <p className="text-emerald-50 text-sm">
+          Masukkan username dan password Anda untuk masuk ke portal hafalan sesuai role (Santri, Guru, atau Mudir).
         </p>
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {Object.entries(roleNavigations).map(([key, item]) => (
-          <div key={key} className="bg-white rounded-xl shadow border border-slate-100 p-6 flex flex-col justify-between hover:shadow-md transition">
-            <div>
-              <span className={`inline-block text-xs font-semibold uppercase px-2.5 py-1 rounded text-white ${item.color} mb-3`}>
-                Role {key}
-              </span>
-              <h3 className="text-xl font-bold mb-2 text-slate-800">{item.title}</h3>
-              <p className="text-slate-600 text-sm mb-6">{item.desc}</p>
-            </div>
-            <a
-              href={item.link}
-              className={`w-full py-2.5 text-center text-white font-medium rounded-lg shadow hover:opacity-90 transition ${item.color}`}
-            >
-              Masuk Portal
-            </a>
+      <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-8">
+        <h3 className="text-xl font-bold text-slate-800 mb-6 text-center border-b pb-4">Masuk ke Sistem</h3>
+
+        {errorMsg && (
+          <div className="bg-rose-50 border border-rose-200 text-rose-700 p-3 rounded-lg text-sm mb-4">
+            {errorMsg}
           </div>
-        ))}
+        )}
+
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1">Username</label>
+            <input
+              type="text"
+              required
+              placeholder="Masukkan username Anda..."
+              className="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1">Password</label>
+            <input
+              type="password"
+              required
+              placeholder="Masukkan password Anda..."
+              className="w-full border rounded-lg p-3 text-sm focus:ring-2 focus:ring-emerald-500 outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-emerald-600 text-white font-medium py-3 rounded-lg hover:bg-emerald-700 transition shadow"
+          >
+            {loading ? 'Memeriksa Data...' : 'Masuk / Login'}
+          </button>
+        </form>
+
+        <div className="mt-6 text-xs text-slate-400 text-center border-t pt-4">
+          Akses dibatasi untuk role <strong>Santri</strong>, <strong>Guru (Ustadz)</strong>, dan <strong>Mudir</strong>.
+        </div>
       </div>
     </div>
   );
