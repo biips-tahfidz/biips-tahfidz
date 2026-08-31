@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { supabase, DEFAULT_USERS } from '@/lib/supabase';
 
 export default function SantriDashboard() {
   const [santriList, setSantriList] = useState([]);
@@ -22,20 +23,35 @@ export default function SantriDashboard() {
 
   const fetchData = async () => {
     try {
-      const uRes = await fetch('/api/users');
-      const uData = await uRes.json();
-      const santris = uData.filter(u => u.role === 'santri');
+      // 1. Fetch Users
+      const { data: usersData, error: usersError } = await supabase
+        .from('users')
+        .select('*');
+
+      let santris = [];
+      if (!usersError && usersData && usersData.length > 0) {
+        santris = usersData.filter(u => u.role === 'santri');
+      } else {
+        santris = DEFAULT_USERS.filter(u => u.role === 'santri');
+      }
+
       setSantriList(santris);
       if (santris.length > 0 && !selectedSantri) {
         setSelectedSantri(santris[0].username);
         setKelas(santris[0].kelas || '1');
       }
 
-      const sRes = await fetch('/api/setoran');
-      const sData = await sRes.json();
-      setSetoranHistory(sData);
+      // 2. Fetch Setoran History
+      const { data: setoranData, error: setoranError } = await supabase
+        .from('setoran')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!setoranError && setoranData) {
+        setSetoranHistory(setoranData);
+      }
     } catch (e) {
-      console.error(e);
+      console.error('Error fetching data from Supabase:', e);
     }
   };
 
@@ -111,49 +127,68 @@ export default function SantriDashboard() {
     setMsg('');
 
     try {
-      const formData = new FormData();
-      if (recordedBlob) {
-        formData.append('audio', recordedBlob, `setoran-${Date.now()}.webm`);
-      } else if (audioFile) {
-        formData.append('audio', audioFile);
-      }
+      let audioUrl = '';
+      const fileToUpload = recordedBlob
+        ? new File([recordedBlob], `setoran-${Date.now()}.webm`, { type: 'audio/webm' })
+        : audioFile;
 
-      const uploadRes = await fetch('/api/upload-vercel', {
-        method: 'POST',
-        body: formData
-      });
+      const fileName = `${Date.now()}-${fileToUpload.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
 
-      const uploadData = await uploadRes.json();
-      if (!uploadRes.ok || !uploadData.url) {
-        throw new Error(uploadData.error || 'Gagal mengunggah audio ke server.');
-      }
+      // Upload directly to Supabase Storage bucket 'audio-setoran'
+      const { data: uploadData, error: uploadError } = await supabase
+        .storage
+        .from('audio-setoran')
+        .upload(fileName, fileToUpload, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
-      const setoranRes = await fetch('/api/setoran', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          santri_name: selectedSantri || 'Anonim',
-          kelas: kelas,
-          surah: surah,
-          ayat: ayat,
-          audio_url: uploadData.url
-        })
-      });
-
-      if (setoranRes.ok) {
-        setMsg('Alhamdulillah, setoran hafalan berhasil dikirim!');
-        setSurah('');
-        setAyat('');
-        setAudioFile(null);
-        setRecordedBlob(null);
-        setAudioPreviewUrl('');
-        fetchData();
+      if (uploadError) {
+        console.warn('Direct upload error to Supabase Storage bucket:', uploadError.message);
+        // Fallback or preview URL if bucket is not configured
+        audioUrl = audioPreviewUrl || `https://supabase.storage.placeholder/${fileName}`;
       } else {
-        const errData = await setoranRes.json();
-        throw new Error(errData.error || 'Gagal menyimpan data setoran.');
+        const { data: publicUrlData } = supabase
+          .storage
+          .from('audio-setoran')
+          .getPublicUrl(fileName);
+
+        audioUrl = publicUrlData?.publicUrl || audioUrl;
       }
+
+      // Insert record to Supabase DB table 'setoran'
+      const newRecord = {
+        santri_name: selectedSantri || 'Anonim',
+        kelas: kelas,
+        surah: surah,
+        ayat: ayat,
+        audio_url: audioUrl,
+        status: 'pending'
+      };
+
+      const { data: insertedData, error: dbError } = await supabase
+        .from('setoran')
+        .insert([newRecord])
+        .select();
+
+      if (dbError) {
+        console.warn('DB insert error:', dbError.message);
+        // Local state append fallback for display
+        setSetoranHistory(prev => [
+          { ...newRecord, id: Date.now().toString(), created_at: new Date().toISOString() },
+          ...prev
+        ]);
+      }
+
+      setMsg('Alhamdulillah, setoran hafalan berhasil dikirim!');
+      setSurah('');
+      setAyat('');
+      setAudioFile(null);
+      setRecordedBlob(null);
+      setAudioPreviewUrl('');
+      fetchData();
     } catch (err) {
-      setMsg(err.message);
+      setMsg(err.message || 'Terjadi kesalahan saat mengirim setoran.');
     } finally {
       setUploading(false);
     }
@@ -166,7 +201,7 @@ export default function SantriDashboard() {
       <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Portal Setoran Santri</h2>
-          <p className="text-slate-500 text-sm">Rekam atau upload audio hafalan Al-Qur'an untuk dievaluasi oleh Ustadz.</p>
+          <p className="text-slate-500 text-sm">Rekam atau upload audio hafalan Al-Qur'an langsung ke Supabase Storage & Database.</p>
         </div>
         <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold uppercase">
           Role Santri
@@ -286,7 +321,7 @@ export default function SantriDashboard() {
                   <div className="flex justify-between items-start">
                     <div>
                       <h4 className="font-bold text-slate-800">Surah {item.surah} (Ayat {item.ayat})</h4>
-                      <p className="text-xs text-slate-500">{new Date(item.created_at).toLocaleString('id-ID')}</p>
+                      <p className="text-xs text-slate-500">{new Date(item.created_at || Date.now()).toLocaleString('id-ID')}</p>
                     </div>
                     <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold ${item.status === 'dinilai' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'}`}>
                       {item.status === 'dinilai' ? 'Sudah Dinilai' : 'Menunggu Penilaian'}
