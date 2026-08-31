@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 export default function HomePage() {
   const roleNavigations = {
     santri: { title: 'Portal Santri', desc: 'Rekam atau unggah audio setoran hafalan surah & ayat Anda.', link: '/santri', color: 'bg-emerald-600' },
@@ -15,7 +13,7 @@ export default function HomePage() {
       <section className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg">
         <h2 className="text-3xl font-extrabold mb-3">Selamat Datang di Aplikasi Setoran Hafalan BIIPS</h2>
         <p className="text-emerald-50 max-w-2xl text-lg">
-          Platform digital setoran tahfidz untuk santri Bina Ilmu Islamic Primary School (BIIPS) terintegrasi Vercel Storage & Supabase Database.
+          Platform digital setoran tahfidz statis untuk santri Bina Ilmu Islamic Primary School (BIIPS) terintegrasi Supabase Database & File Storage.
         </p>
       </section>
 

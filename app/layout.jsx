@@ -2,7 +2,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Setoran Hafalan Tahfidz BIIPS',
-  description: 'Aplikasi Web Setoran Hafalan Tahfidz dengan Vercel Blob Storage dan Supabase PostgreSQL Database',
+  description: 'Aplikasi Web Setoran Hafalan Tahfidz Statis dengan Supabase Database dan Supabase File Storage',
 };
 
 export default function RootLayout({ children }) {
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
         </main>
 
         <footer className="bg-slate-800 text-slate-400 py-6 border-t border-slate-700 text-center text-sm">
-          <p>&copy; {new Date().getFullYear()} Aplikasi Setoran Tahfidz BIIPS. Powered by Next.js, Vercel Blob & Supabase Database.</p>
+          <p>&copy; {new Date().getFullYear()} Aplikasi Setoran Tahfidz BIIPS. Powered by Next.js Static Export & Supabase Client.</p>
         </footer>
       </body>
     </html>

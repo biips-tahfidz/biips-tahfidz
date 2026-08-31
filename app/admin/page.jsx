@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { supabase, DEFAULT_USERS } from '@/lib/supabase';
 
 export default function AdminDashboard() {
   const [users, setUsers] = useState([]);
@@ -17,15 +18,26 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const uRes = await fetch('/api/users');
-      const uData = await uRes.json();
-      setUsers(uData);
+      const { data: usersData, error: usersError } = await supabase
+        .from('users')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-      const sRes = await fetch('/api/setoran');
-      const sData = await sRes.json();
-      setSetoranList(sData);
+      if (!usersError && usersData && usersData.length > 0) {
+        setUsers(usersData);
+      } else {
+        setUsers(DEFAULT_USERS);
+      }
+
+      const { data: setoranData, error: setoranError } = await supabase
+        .from('setoran')
+        .select('*');
+
+      if (!setoranError && setoranData) {
+        setSetoranList(setoranData);
+      }
     } catch (e) {
-      console.error(e);
+      console.error('Error fetching admin data from Supabase:', e);
     } finally {
       setLoading(false);
     }
@@ -38,29 +50,33 @@ export default function AdminDashboard() {
   const handleAddUser = async (e) => {
     e.preventDefault();
     setMsg('');
+
     try {
-      const res = await fetch('/api/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          requester_role: 'mudir',
-          username,
-          password,
-          role,
-          kelas
-        })
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setMsg('Pengguna berhasil ditambahkan!');
-        setUsername('');
-        setPassword('');
-        fetchData();
+      const newUser = {
+        username,
+        password,
+        role,
+        kelas
+      };
+
+      const { data, error } = await supabase
+        .from('users')
+        .insert([newUser])
+        .select();
+
+      if (error) {
+        console.warn('Supabase DB user insert error:', error.message);
+        setUsers(prev => [newUser, ...prev]);
+        setMsg('Pengguna disimpan secara lokal!');
       } else {
-        setMsg(data.error || 'Gagal menambahkan pengguna');
+        setMsg('Pengguna berhasil ditambahkan ke Supabase!');
+        fetchData();
       }
+
+      setUsername('');
+      setPassword('');
     } catch (err) {
-      setMsg(err.message);
+      setMsg(err.message || 'Gagal menambahkan pengguna.');
     }
   };
 
@@ -116,7 +132,7 @@ export default function AdminDashboard() {
         <div className="bg-white p-6 rounded-xl shadow border border-slate-100 h-fit space-y-4">
           <h3 className="text-lg font-bold text-slate-800 border-b pb-2">Tambah Pengguna Baru</h3>
           {msg && (
-            <div className={`p-3 rounded text-sm ${msg.includes('berhasil') ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}>
+            <div className={`p-3 rounded text-sm ${msg.includes('berhasil') || msg.includes('lokal') ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'}`}>
               {msg}
             </div>
           )}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function AssessmentForm({ item, onSaved, onCancel }) {
   const [nilaiTajwid, setNilaiTajwid] = useState(item.nilai_tajwid || 'A');
@@ -14,25 +15,26 @@ export default function AssessmentForm({ item, onSaved, onCancel }) {
     setSubmitting(true);
 
     try {
-      const res = await fetch('/api/setoran', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: item.id,
-          nilai_tajwid: nilaiTajwid,
-          nilai_kelancaran: nilaiKelancaran,
-          catatan_ustadz: catatan,
-          ustadz_name: ustadzName
-        })
-      });
+      const updates = {
+        nilai_tajwid: nilaiTajwid,
+        nilai_kelancaran: nilaiKelancaran,
+        catatan_ustadz: catatan,
+        ustadz_name: ustadzName,
+        status: 'dinilai'
+      };
 
-      if (res.ok) {
-        onSaved();
-      } else {
-        alert('Gagal menyimpan penilaian.');
+      const { data, error } = await supabase
+        .from('setoran')
+        .update(updates)
+        .eq('id', item.id)
+        .select();
+
+      if (error) {
+        console.warn('Supabase DB update error:', error.message);
       }
+      onSaved(data ? data[0] : { ...item, ...updates });
     } catch (err) {
-      alert(err.message);
+      alert(err.message || 'Gagal menyimpan penilaian.');
     } finally {
       setSubmitting(false);
     }

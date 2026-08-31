@@ -1,7 +1,7 @@
--- Enable extension for UUID generation if needed
+-- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- Define Enum types safely using DO block
+-- Define Enum types safely
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS setoran (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Seed Initial Users safely
+-- Seed Initial Users
 INSERT INTO users (username, password, role, kelas) VALUES
 ('aminawa', 'bips00', 'mudir', 'semua'),
 ('ratih', 'bips01', 'guru', '1'),

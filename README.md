@@ -1,120 +1,69 @@
-# Aplikasi Setoran Hafalan Tahfidz BIIPS
+# Aplikasi Setoran Hafalan Tahfidz BIIPS (GitHub Pages + Supabase)
 
-Aplikasi web modern setoran hafalan Al-Qur'an untuk Bina Ilmu Islamic Primary School (BIIPS) yang dibangun menggunakan **Next.js 14 App Router**, **Tailwind CSS**, **Vercel Blob Storage** (untuk penyimpanan file audio setoran), dan **Supabase PostgreSQL Database** (untuk penyimpanan data pengguna dan rekam hafalan).
+Aplikasi web setoran hafalan Al-Qur'an untuk **Bina Ilmu Islamic Primary School (BIIPS)** dengan arsitektur **Situs Statis (Static Export)**, di-host langsung melalui **GitHub / GitHub Pages** dan mengandalkan **Supabase** sebagai Database PostgreSQL & Storage File Audio.
 
 ---
 
-## 🗂️ Hierarki Struktur Aplikasi
+## 🏗️ Struktur Proyek
 
-```
+```text
 biips-tahfidz/
-├── app/                        # Next.js App Router & Client/Server Pages
+├── app/                        # Next.js App Router (Static Client Pages)
 │   ├── page.jsx                # Landing Page & Role Selector
 │   ├── layout.jsx              # Root Layout dengan Navigasi Header
 │   ├── globals.css             # Tailwind CSS & Global Styles
 │   ├── admin/
-│   │   └── page.jsx            # Dashboard Mudir / Admin (Kelola Pengguna, Filter Kelas, Rekap WA)
+│   │   └── page.jsx            # Dashboard Mudir (Kelola User via Supabase Client)
 │   ├── ustadz/
-│   │   ├── page.jsx            # Dashboard Ustadz (Daftar Setoran, Progress Chart, Kirim Laporan WA)
-│   │   └── form.jsx            # Form Evaluasi Penilaian Setoran (Nilai Tajwid, Kelancaran, Catatan)
+│   │   ├── page.jsx            # Dashboard Ustadz (Daftar Setoran & Progress Chart)
+│   │   └── form.jsx            # Form Evaluasi Penilaian Setoran
 │   ├── santri/
-│   │   └── page.jsx            # Portal Santri (Rekam Audio Mic, Upload File, Preview Player, Riwayat)
-│   ├── orangtua/
-│   │   └── page.jsx            # Portal Orang Tua (Dampingi Rekam Setoran Anak & Pantau Nilai Ustadz)
-│   └── api/                    # Next.js Serverless API Routes
-│       ├── lib/
-│       │   └── db.js           # Database Helper (Supabase REST -> Tiered Fallback Storage)
-│       ├── users/
-│       │   └── route.js        # API User Management (Restriksi Role Mudir/Admin)
-│       ├── setoran/
-│       │   └── route.js        # API CRUD Setoran & Evaluasi Ustadz
-│       ├── upload-vercel/
-│       │   └── route.js        # API Endpoint Upload Audio ke Vercel Blob
-│       ├── upload-drive/
-│       │   └── route.js        # Legacy Redirect Route ke Vercel Blob Upload
-│       └── db-check/
-│           └── route.js        # API System Health Check (Supabase & Vercel Blob status)
+│   │   └── page.jsx            # Portal Santri (Rekam Audio Mic & Direct Upload ke Supabase)
+│   └── orangtua/
+│       └── page.jsx            # Portal Orang Tua (Pantau Progress Anak)
+│
 ├── lib/
-│   └── supabase.js             # Client Helper Supabase REST API
+│   └── supabase.js             # Supabase Client SDK (Inisialisasi URL & Anon Key)
+│
 ├── supabase/
-│   └── schema.sql              # Supabase PostgreSQL Database Schema & Seed Data (26 User)
-├── test.js                     # Integration Test Suite (`npm test`)
-├── package.json                # Project Dependencies & Scripts
-└── README.md                   # Dokumentasi Aplikasi & Petunjuk Deployment
+│   ├── schema.sql              # PostgreSQL Database Schema (Tabel User, Setoran, Nilai)
+│   └── storage-policy.sql      # Konfigurasi Akses Public Storage Bucket Audio
+│
+├── public/                     # Aset Statis (Logo BIIPS, Gambar, Favicon)
+├── next.config.js              # Konfigurasi Next.js (`output: 'export'`)
+├── package.json                # Dependencies Proyek
+└── README.md                   # Dokumentasi
 ```
 
 ---
 
-## 🚀 Fitur Utama Aplikasi
+## 🚀 Panduan Setup & Deploy
 
-1. **Penyimpanan Media Audio di Vercel Blob:**
-   - Santri & Orang Tua dapat merekam suara hafalan langsung dari mikrofon browser atau mengunggah file audio.
-   - File audio diunggah secara aman dan publik ke Vercel Blob Storage (`/api/upload-vercel`).
+### 1. Supabase Setup
+1. Buat proyek baru di [Supabase Dashboard](https://supabase.com).
+2. Jalankan skrip di `supabase/schema.sql` pada SQL Editor Supabase untuk membuat tabel `users` dan `setoran`.
+3. Jalankan skrip di `supabase/storage-policy.sql` untuk membuat bucket `audio-setoran` dan mengatur izin akses publik.
 
-2. **Database Supabase PostgreSQL & Fallback System:**
-   - Menyediakan `supabase/schema.sql` yang efisien dan idempotent.
-   - Menggunakan tiered fallback system di `app/api/lib/db.js` sehingga sistem tetap dapat berjalan lancar menggunakan in-memory storage jika database Supabase sedang tidak terhubung.
-
-3. **Multi-Role Portal (4 Akses Role):**
-   - **Santri:** Mengirimkan setoran surah/ayat, rekam mic, preview audio, dan melihat riwayat evaluasi.
-   - **Orang Tua:** Dampingi setoran anak dan memantau catatan ustadz.
-   - **Ustadz / Pengampu:** Menilai tajwid & kelancaran hafalan, memberi catatan, melihat progress chart santri, serta **mengirimkan laporan progress perkembangan hafalan anak via WhatsApp**.
-   - **Mudir / Admin:** Menambah akun pengguna baru, memfilter santri per kelas, dan mengirimkan rekapitulasi kelas via WhatsApp.
-
-4. **Integrasi WhatsApp Report:**
-   - Ustadz & Mudir dapat menekan tombol **📲 Kirim WA Progress** yang secara otomatis menggenerasi format ringkasan laporan dan membuka WhatsApp (`https://wa.me/`).
-
----
-
-## ⚠️ Catatan Penting Mengenai Deployment (GitHub Pages vs Vercel)
-
-Aplikasi ini dibangun menggunakan **Next.js 14 App Router** yang memiliki fitur Server-Side Rendering (SSR) dan API Routes (Serverless backend di `/api/...`). Oleh karena itu, aplikasi **TIDAK DAPAT** dijalankan secara langsung di **GitHub Pages** (seperti `https://biips-tahfidz.github.io/biips-tahfidz/`) karena GitHub Pages hanya mendukung file statis (HTML/CSS/JS) tanpa server Node.js / API Routes.
-
----
-
-## 🚀 Cara Menjalankan & Deploy Aplikasi
-
-### Pilihan 1: Jalankan Secara Lokal (Local Development)
-
-1. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
-
-2. **Jalankan Integration Test:**
-   ```bash
-   npm test
-   ```
-
-3. **Jalankan Server Lokal:**
-   ```bash
-   npm run dev
-   ```
-   Buka browser dan akses ke `http://localhost:3000`.
-
----
-
-### Pilihan 2: Deploy Online Menggunakan Vercel (Disarankan)
-
-Vercel adalah platform hosting resmi untuk Next.js (gratis untuk hobi/sekolah).
-
-1. Buat akun di **[Vercel](https://vercel.com/)** (login dengan GitHub).
-2. Klik **"Add New..."** -> **"Project"**.
-3. Hubungkan ke repositori GitHub **`biips-tahfidz`**.
-4. Di bagian **Environment Variables**, tambahkan variabel berikut (opsional jika menggunakan Supabase & Vercel Blob):
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-   - `BLOB_READ_WRITE_TOKEN`
-5. Klik **"Deploy"**. Vercel akan otomatis me-render aplikasi dan memberikan URL live (contoh: `https://biips-tahfidz.vercel.app`).
-
----
-
-## 🌍 Environment Variables (Vercel & Supabase Setup)
-
-Untuk menghubungkan ke instance Supabase dan Vercel Blob secara live, tambahkan variabel lingkungan di Vercel/`.env.local`:
-
+### 2. Variabel Lingkungan (.env.local)
+Buat file `.env.local` pada root proyek:
 ```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-BLOB_READ_WRITE_TOKEN=your-vercel-blob-read-write-token
 ```
+
+### 3. Build & Static Export untuk GitHub Pages
+Aplikasi ini menggunakan `output: 'export'` pada `next.config.js`.
+
+Untuk memunculkan static output:
+```bash
+npm run build
+```
+Hasil build statis akan tersimpan di folder `out/`. Folder ini dapat dideploy ke **GitHub Pages**.
+
+---
+
+## 👥 Fitur & Role Akses
+* **Santri:** Merekam suara langsung dari mikrofon atau mengunggah file audio hafalan langsung ke Supabase Storage (`audio-setoran`).
+* **Orang Tua:** Mendampingi rekaman audio hafalan anak serta memantau hasil evaluasi & nilai tajwid dari Ustadz.
+* **Ustadz:** Mengulas rekaman setoran, memberi nilai Tajwid & Kelancaran, serta membuat laporan rekap progress via WhatsApp.
+* **Mudir / Admin:** Mengelola akun pengguna (Santri, Guru, Orang Tua, Mudir) serta mengirimkan ringkasan rekap kelas ke WhatsApp.

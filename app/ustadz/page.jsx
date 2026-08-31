@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import AssessmentForm from './form';
+import { supabase } from '@/lib/supabase';
 
 export default function UstadzDashboard() {
   const [setoranList, setSetoranList] = useState([]);
@@ -12,11 +13,16 @@ export default function UstadzDashboard() {
   const fetchSetoran = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/setoran');
-      const data = await res.json();
-      setSetoranList(data);
+      const { data, error } = await supabase
+        .from('setoran')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (!error && data) {
+        setSetoranList(data);
+      }
     } catch (e) {
-      console.error(e);
+      console.error('Error fetching setoran from Supabase:', e);
     } finally {
       setLoading(false);
     }
