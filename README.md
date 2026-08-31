@@ -66,23 +66,46 @@ biips-tahfidz/
 
 ---
 
-## 🛠️ Cara Menjalankan Project
+## ⚠️ Catatan Penting Mengenai Deployment (GitHub Pages vs Vercel)
 
-### 1. Install Dependencies
-```bash
-npm install
-```
+Aplikasi ini dibangun menggunakan **Next.js 14 App Router** yang memiliki fitur Server-Side Rendering (SSR) dan API Routes (Serverless backend di `/api/...`). Oleh karena itu, aplikasi **TIDAK DAPAT** dijalankan secara langsung di **GitHub Pages** (seperti `https://biips-tahfidz.github.io/biips-tahfidz/`) karena GitHub Pages hanya mendukung file statis (HTML/CSS/JS) tanpa server Node.js / API Routes.
 
-### 2. Jalankan Integration Test
-```bash
-npm test
-```
+---
 
-### 3. Jalankan Server Lokal
-```bash
-npm run dev
-```
-Akses di browser pada `http://localhost:3000`.
+## 🚀 Cara Menjalankan & Deploy Aplikasi
+
+### Pilihan 1: Jalankan Secara Lokal (Local Development)
+
+1. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Jalankan Integration Test:**
+   ```bash
+   npm test
+   ```
+
+3. **Jalankan Server Lokal:**
+   ```bash
+   npm run dev
+   ```
+   Buka browser dan akses ke `http://localhost:3000`.
+
+---
+
+### Pilihan 2: Deploy Online Menggunakan Vercel (Disarankan)
+
+Vercel adalah platform hosting resmi untuk Next.js (gratis untuk hobi/sekolah).
+
+1. Buat akun di **[Vercel](https://vercel.com/)** (login dengan GitHub).
+2. Klik **"Add New..."** -> **"Project"**.
+3. Hubungkan ke repositori GitHub **`biips-tahfidz`**.
+4. Di bagian **Environment Variables**, tambahkan variabel berikut (opsional jika menggunakan Supabase & Vercel Blob):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `BLOB_READ_WRITE_TOKEN`
+5. Klik **"Deploy"**. Vercel akan otomatis me-render aplikasi dan memberikan URL live (contoh: `https://biips-tahfidz.vercel.app`).
 
 ---
 
