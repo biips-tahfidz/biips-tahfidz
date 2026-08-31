@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { supabase, DEFAULT_USERS } from '@/lib/supabase';
 
 export default function HomePage() {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
@@ -35,7 +37,6 @@ export default function HomePage() {
         const foundDefault = DEFAULT_USERS.find(
           u => u.username.toLowerCase() === username.trim().toLowerCase()
         );
-        // Default seed password matches username or known default
         if (foundDefault) {
           matchedUser = foundDefault;
         }
@@ -51,11 +52,11 @@ export default function HomePage() {
       const userRole = (matchedUser.role || '').toLowerCase();
 
       if (userRole === 'santri') {
-        window.location.href = '/santri';
+        router.push('/santri');
       } else if (userRole === 'guru' || userRole === 'ustadz') {
-        window.location.href = '/ustadz';
+        router.push('/ustadz');
       } else if (userRole === 'mudir' || userRole === 'admin') {
-        window.location.href = '/admin';
+        router.push('/admin');
       } else {
         setErrorMsg('Akses ditolak: Role Anda tidak diizinkan masuk.');
       }
