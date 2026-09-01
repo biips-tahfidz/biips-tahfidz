@@ -1,0 +1,19 @@
+
+> biips-tahfidz@1.0.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 1882ms
+ ○ Compiling / ...
+ ✓ Compiled / in 5.7s (599 modules)
+ HEAD / 200 in 6164ms
+ ✓ Compiled in 666ms (308 modules)
+ GET / 200 in 52ms
+ ○ Compiling /santri ...
+ ✓ Compiled /santri in 678ms (591 modules)
+ GET /santri 200 in 894ms
+ ✓ Compiled /ustadz in 387ms (599 modules)
+ GET /ustadz 200 in 488ms

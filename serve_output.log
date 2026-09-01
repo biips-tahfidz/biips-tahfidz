@@ -320,3 +320,5 @@ npm warn exec The following package was not found and will be installed: serve@1
  HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 2 ms
  HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
  HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+
+ INFO  Gracefully shutting down. Please wait...

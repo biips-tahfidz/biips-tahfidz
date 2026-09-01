@@ -12,6 +12,16 @@ export default function UstadzDashboard() {
 
   const fetchSetoran = async () => {
     setLoading(true);
+    let localSetoran = [];
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('biips_setoran');
+        if (saved) localSetoran = JSON.parse(saved);
+      } catch (err) {
+        console.error('Error reading biips_setoran:', err);
+      }
+    }
+
     try {
       const { data, error } = await supabase
         .from('setoran')
@@ -19,10 +29,19 @@ export default function UstadzDashboard() {
         .order('created_at', { ascending: false });
 
       if (!error && data) {
-        setSetoranList(data);
+        const dbIds = new Set(data.map(s => s.id));
+        const localOnly = localSetoran.filter(s => !dbIds.has(s.id));
+        const merged = [...data, ...localOnly];
+        setSetoranList(merged);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('biips_setoran', JSON.stringify(merged));
+        }
+      } else {
+        setSetoranList(localSetoran);
       }
     } catch (e) {
       console.error('Error fetching setoran from Supabase:', e);
+      setSetoranList(localSetoran);
     } finally {
       setLoading(false);
     }

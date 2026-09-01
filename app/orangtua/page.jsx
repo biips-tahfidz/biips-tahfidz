@@ -22,36 +22,63 @@ export default function OrangTuaDashboard() {
   const audioChunksRef = useRef([]);
 
   const fetchData = async () => {
+    let santris = DEFAULT_USERS.filter(u => u.role === 'santri');
     try {
       // 1. Fetch Users
       const { data: usersData, error: usersError } = await supabase
         .from('users')
         .select('*');
 
-      let santris = [];
       if (!usersError && usersData && usersData.length > 0) {
-        santris = usersData.filter(u => u.role === 'santri');
-      } else {
-        santris = DEFAULT_USERS.filter(u => u.role === 'santri');
+        const fetchedSantris = usersData.filter(u => u.role === 'santri');
+        if (fetchedSantris.length > 0) {
+          santris = fetchedSantris;
+        }
       }
+    } catch (e) {
+      console.error('Error fetching users from Supabase:', e);
+    }
 
-      setSantriList(santris);
-      if (santris.length > 0 && !selectedSantri) {
-        setSelectedSantri(santris[0].username);
+    setSantriList(santris);
+    setSelectedSantri(prev => {
+      if (!prev && santris.length > 0) {
         setKelas(santris[0].kelas || '1');
+        return santris[0].username;
       }
+      return prev;
+    });
 
-      // 2. Fetch Setoran History
+    // 2. Fetch Setoran History with localStorage persistence
+    let localSetoran = [];
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('biips_setoran');
+        if (saved) localSetoran = JSON.parse(saved);
+      } catch (err) {
+        console.error('Error reading biips_setoran:', err);
+      }
+    }
+
+    try {
       const { data: setoranData, error: setoranError } = await supabase
         .from('setoran')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (!setoranError && setoranData) {
-        setSetoranHistory(setoranData);
+        const dbIds = new Set(setoranData.map(s => s.id));
+        const localOnly = localSetoran.filter(s => !dbIds.has(s.id));
+        const merged = [...setoranData, ...localOnly];
+        setSetoranHistory(merged);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('biips_setoran', JSON.stringify(merged));
+        }
+      } else {
+        setSetoranHistory(localSetoran);
       }
     } catch (e) {
-      console.error('Error fetching data from Supabase:', e);
+      console.error('Error fetching setoran from Supabase:', e);
+      setSetoranHistory(localSetoran);
     }
   };
 
@@ -171,18 +198,30 @@ export default function OrangTuaDashboard() {
         status: 'pending'
       };
 
+      const recordToSave = {
+        ...newRecord,
+        id: Date.now().toString(),
+        created_at: new Date().toISOString()
+      };
+
       const { data: insertedData, error: dbError } = await supabase
         .from('setoran')
         .insert([newRecord])
         .select();
 
+      const savedItem = (insertedData && insertedData.length > 0) ? insertedData[0] : recordToSave;
+
       if (dbError) {
         console.warn('DB insert error:', dbError.message);
-        setSetoranHistory(prev => [
-          { ...newRecord, id: Date.now().toString(), created_at: new Date().toISOString() },
-          ...prev
-        ]);
       }
+
+      setSetoranHistory(prev => {
+        const updated = [savedItem, ...prev.filter(item => item.id !== savedItem.id)];
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('biips_setoran', JSON.stringify(updated));
+        }
+        return updated;
+      });
 
       setMsg('Alhamdulillah, setoran hafalan putra/putri berhasil dikirim!');
       setSurah('');
@@ -190,7 +229,6 @@ export default function OrangTuaDashboard() {
       setAudioFile(null);
       setRecordedBlob(null);
       setAudioPreviewUrl('');
-      fetchData();
     } catch (err) {
       setMsg(err.message || 'Terjadi kesalahan saat mengirim setoran.');
     } finally {
