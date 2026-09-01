@@ -1,9 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { supabase, DEFAULT_USERS } from '@/lib/supabase';
+import { useRouter } from 'next/navigation';
+import { supabase, DEFAULT_USERS, getCurrentUser, logoutUser } from '@/lib/supabase';
 
 export default function SantriDashboard() {
+  const router = useRouter();
+  const [currentUser, setCurrentUserSession] = useState(null);
   const [santriList, setSantriList] = useState([]);
   const [selectedSantri, setSelectedSantri] = useState('');
   const [kelas, setKelas] = useState('1');
@@ -21,7 +24,27 @@ export default function SantriDashboard() {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  const fetchData = async () => {
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) {
+      router.push('/');
+      return;
+    }
+
+    const role = (user.role || '').toLowerCase();
+    if (role !== 'santri' && role !== 'mudir' && role !== 'admin') {
+      alert('Akses Ditolak: Halaman ini khusus untuk Santri.');
+      router.push('/');
+      return;
+    }
+
+    setCurrentUserSession(user);
+    setSelectedSantri(user.username);
+    setKelas(user.kelas || '1');
+    fetchData(user);
+  }, [router]);
+
+  const fetchData = async (userSession) => {
     try {
       // 1. Fetch Users
       const { data: usersData, error: usersError } = await supabase
@@ -36,10 +59,6 @@ export default function SantriDashboard() {
       }
 
       setSantriList(santris);
-      if (santris.length > 0 && !selectedSantri) {
-        setSelectedSantri(santris[0].username);
-        setKelas(santris[0].kelas || '1');
-      }
 
       // 2. Fetch Setoran History
       const { data: setoranData, error: setoranError } = await supabase
@@ -55,16 +74,16 @@ export default function SantriDashboard() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const handleSantriChange = (e) => {
-    const val = e.target.value;
-    setSelectedSantri(val);
-    const found = santriList.find(s => s.username === val);
-    if (found) {
-      setKelas(found.kelas || '1');
+    // Only mudir / admin can change selected santri
+    const role = (currentUser?.role || '').toLowerCase();
+    if (role === 'mudir' || role === 'admin') {
+      const val = e.target.value;
+      setSelectedSantri(val);
+      const found = santriList.find(s => s.username === val);
+      if (found) {
+        setKelas(found.kelas || '1');
+      }
     }
   };
 
@@ -145,7 +164,6 @@ export default function SantriDashboard() {
 
       if (uploadError) {
         console.warn('Direct upload error to Supabase Storage bucket:', uploadError.message);
-        // Fallback or preview URL if bucket is not configured
         audioUrl = audioPreviewUrl || `https://supabase.storage.placeholder/${fileName}`;
       } else {
         const { data: publicUrlData } = supabase
@@ -158,7 +176,7 @@ export default function SantriDashboard() {
 
       // Insert record to Supabase DB table 'setoran'
       const newRecord = {
-        santri_name: selectedSantri || 'Anonim',
+        santri_name: selectedSantri || currentUser?.username || 'Anonim',
         kelas: kelas,
         surah: surah,
         ayat: ayat,
@@ -173,7 +191,6 @@ export default function SantriDashboard() {
 
       if (dbError) {
         console.warn('DB insert error:', dbError.message);
-        // Local state append fallback for display
         setSetoranHistory(prev => [
           { ...newRecord, id: Date.now().toString(), created_at: new Date().toISOString() },
           ...prev
@@ -186,7 +203,7 @@ export default function SantriDashboard() {
       setAudioFile(null);
       setRecordedBlob(null);
       setAudioPreviewUrl('');
-      fetchData();
+      fetchData(currentUser);
     } catch (err) {
       setMsg(err.message || 'Terjadi kesalahan saat mengirim setoran.');
     } finally {
@@ -195,17 +212,28 @@ export default function SantriDashboard() {
   };
 
   const myHistory = setoranHistory.filter(s => s.santri_name === selectedSantri);
+  const isMudirOrAdmin = (currentUser?.role || '').toLowerCase() === 'mudir' || (currentUser?.role || '').toLowerCase() === 'admin';
 
   return (
     <div className="space-y-8">
-      <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex justify-between items-center">
+      <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Portal Setoran Santri</h2>
-          <p className="text-slate-500 text-sm">Rekam atau upload audio hafalan Al-Qur'an langsung ke Supabase Storage & Database.</p>
+          <p className="text-slate-500 text-sm">
+            Selamat datang, <span className="font-semibold text-emerald-700">{currentUser?.username || 'Santri'}</span>! Rekam atau upload audio hafalan Al-Qur'an Anda.
+          </p>
         </div>
-        <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold uppercase">
-          Role Santri
-        </span>
+        <div className="flex items-center space-x-3">
+          <span className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold uppercase">
+            Role Santri
+          </span>
+          <button
+            onClick={logoutUser}
+            className="bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition"
+          >
+            🚪 Logout
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -220,18 +248,27 @@ export default function SantriDashboard() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-600 mb-1">Pilih Santri</label>
-              <select
-                className="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500"
-                value={selectedSantri}
-                onChange={handleSantriChange}
-              >
-                {santriList.map((s, idx) => (
-                  <option key={s.id || idx} value={s.username}>
-                    {s.username} (Kelas {s.kelas})
-                  </option>
-                ))}
-              </select>
+              <label className="block text-xs font-semibold text-slate-600 mb-1">Nama Santri</label>
+              {isMudirOrAdmin ? (
+                <select
+                  className="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500"
+                  value={selectedSantri}
+                  onChange={handleSantriChange}
+                >
+                  {santriList.map((s, idx) => (
+                    <option key={s.id || idx} value={s.username}>
+                      {s.username} (Kelas {s.kelas})
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  disabled
+                  value={`${currentUser?.username || ''} (Kelas ${kelas})`}
+                  className="w-full bg-slate-100 border rounded-lg p-2.5 text-sm font-semibold text-slate-700 cursor-not-allowed"
+                />
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-3">
@@ -313,7 +350,7 @@ export default function SantriDashboard() {
           <h3 className="text-lg font-bold text-slate-800 border-b pb-4">Riwayat Setoran Saya ({myHistory.length})</h3>
 
           {myHistory.length === 0 ? (
-            <p className="text-slate-400 text-center py-8 text-sm">Belum ada riwayat setoran hafalan.</p>
+            <p className="text-slate-400 text-center py-8 text-sm">Belum ada riwayat setoran hafalan yang Anda kirimkan.</p>
           ) : (
             <div className="space-y-4">
               {myHistory.map((item) => (

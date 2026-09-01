@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase, DEFAULT_USERS } from '@/lib/supabase';
+import { supabase, DEFAULT_USERS, getCurrentUser, setCurrentUser } from '@/lib/supabase';
 
 export default function HomePage() {
   const router = useRouter();
@@ -10,6 +10,23 @@ export default function HomePage() {
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // If user is already logged in, redirect them to their portal
+    const user = getCurrentUser();
+    if (user && user.role) {
+      const userRole = user.role.toLowerCase();
+      if (userRole === 'santri') {
+        router.push('/santri');
+      } else if (userRole === 'guru' || userRole === 'ustadz') {
+        router.push('/ustadz');
+      } else if (userRole === 'mudir' || userRole === 'admin') {
+        router.push('/admin');
+      } else if (userRole === 'orangtua') {
+        router.push('/orangtua');
+      }
+    }
+  }, [router]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -48,7 +65,10 @@ export default function HomePage() {
         return;
       }
 
-      // 3. Restrict role strictly to santri, guru, and mudir
+      // 3. Save session
+      setCurrentUser(matchedUser);
+
+      // 4. Redirect strictly according to role
       const userRole = (matchedUser.role || '').toLowerCase();
 
       if (userRole === 'santri') {
@@ -57,6 +77,8 @@ export default function HomePage() {
         router.push('/ustadz');
       } else if (userRole === 'mudir' || userRole === 'admin') {
         router.push('/admin');
+      } else if (userRole === 'orangtua') {
+        router.push('/orangtua');
       } else {
         setErrorMsg('Akses ditolak: Role Anda tidak diizinkan masuk.');
       }
@@ -148,7 +170,7 @@ export default function HomePage() {
         {/* Footer info inside card */}
         <div className="mt-8 pt-6 border-t border-slate-100 w-full text-center">
           <p className="text-xs text-slate-400">
-            Akses dibatasi untuk role <span className="font-semibold text-slate-600">Santri</span>, <span className="font-semibold text-slate-600">Guru</span>, dan <span className="font-semibold text-slate-600">Mudir</span>.
+            Akses dibatasi untuk role <span className="font-semibold text-slate-600">Santri</span>, <span className="font-semibold text-slate-600">Guru</span>, <span className="font-semibold text-slate-600">Orang Tua</span>, dan <span className="font-semibold text-slate-600">Mudir</span>.
           </p>
         </div>
       </div>
