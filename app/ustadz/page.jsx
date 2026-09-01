@@ -1,14 +1,35 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import AssessmentForm from './form';
-import { supabase } from '@/lib/supabase';
+import { supabase, getCurrentUser, logoutUser } from '@/lib/supabase';
 
 export default function UstadzDashboard() {
+  const router = useRouter();
+  const [currentUser, setCurrentUserSession] = useState(null);
   const [setoranList, setSetoranList] = useState([]);
   const [selectedClass, setSelectedClass] = useState('semua');
   const [activeItem, setActiveItem] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    if (!user) {
+      router.push('/');
+      return;
+    }
+
+    const role = (user.role || '').toLowerCase();
+    if (role !== 'guru' && role !== 'ustadz' && role !== 'mudir' && role !== 'admin') {
+      alert('Akses Ditolak: Halaman ini khusus untuk Ustadz / Guru dan Mudir.');
+      router.push('/');
+      return;
+    }
+
+    setCurrentUserSession(user);
+    fetchSetoran();
+  }, [router]);
 
   const fetchSetoran = async () => {
     setLoading(true);
@@ -27,10 +48,6 @@ export default function UstadzDashboard() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchSetoran();
-  }, []);
 
   const filteredList = setoranList.filter(item => {
     if (selectedClass === 'semua') return true;
@@ -78,21 +95,31 @@ export default function UstadzDashboard() {
       detailText += `\n`;
     });
 
-    detailText += `\nJazakumullah Khairan.\n- *Ustadz Pengampu Tahfidz BIIPS*`;
+    detailText += `\nJazakumullah Khairan.\n- *Ustadz ${currentUser?.username || 'Pengampu'} Tahfidz BIIPS*`;
 
     return `https://wa.me/?text=${encodeURIComponent(detailText)}`;
   };
 
   return (
     <div className="space-y-8">
-      <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex justify-between items-center">
+      <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Dashboard Ustadz / Pengampu Tahfidz</h2>
-          <p className="text-slate-500 text-sm">Dengarkan audio setoran, berikan penilaian, dan kirim grafik/laporan progress hafalan ke WhatsApp Orang Tua.</p>
+          <p className="text-slate-500 text-sm">
+            Selamat datang, <span className="font-semibold text-indigo-700">Ustadz {currentUser?.username || ''}</span>! Dengarkan audio setoran, berikan penilaian, dan kirim progress hafalan ke WhatsApp Orang Tua.
+          </p>
         </div>
-        <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold uppercase">
-          Role Ustadz
-        </span>
+        <div className="flex items-center space-x-3">
+          <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold uppercase">
+            Role Ustadz
+          </span>
+          <button
+            onClick={logoutUser}
+            className="bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition"
+          >
+            🚪 Logout
+          </button>
+        </div>
       </div>
 
       {activeItem && (
