@@ -145,8 +145,13 @@ export default function SantriDashboard() {
 
       if (uploadError) {
         console.warn('Direct upload error to Supabase Storage bucket:', uploadError.message);
-        // Fallback or preview URL if bucket is not configured
-        audioUrl = audioPreviewUrl || `https://supabase.storage.placeholder/${fileName}`;
+        // Convert audio file to Base64 data URL so audio is saved in DB and accessible across devices/users
+        audioUrl = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = () => resolve(audioPreviewUrl || '');
+          reader.readAsDataURL(fileToUpload);
+        });
       } else {
         const { data: publicUrlData } = supabase
           .storage

@@ -1,19 +1,322 @@
- INFO  Accepting connections at http://localhost:8080
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 254 ms
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/css/ff563e96360a001e.css
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/chunks/webpack-2b3f51a17aee1ca3.js
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 4 ms
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 3 ms
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/chunks/fd9d1056-87da80e0c187477b.js
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/chunks/117-934bb661021d74aa.js
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/chunks/main-app-6fca1515cee9a03c.js
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/chunks/972-12069f756aca8195.js
- HTTP  8/31/2026 5:04:44 PM ::1 GET /biips-tahfidz/_next/static/chunks/app/layout-f30c8a866de716da.js
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 5 ms
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 5 ms
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 4 ms
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 5 ms
- HTTP  8/31/2026 5:04:44 PM ::1 Returned 404 in 5 ms
-
- INFO  Gracefully shutting down. Please wait...
+npm warn exec The following package was not found and will be installed: serve@14.2.6
+ INFO  Accepting connections at http://localhost:3000
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 301 in 324 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /santri
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 14 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 11 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 5 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 16 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 15 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 19 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 26 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 20 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 32 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:27:43 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 33 ms
+ HTTP  9/1/2026 6:27:43 AM ::1 Returned 200 in 10 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:27:44 AM ::1 Returned 200 in 5 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 301 in 1 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /santri
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 7 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 12 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:19 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:28:19 AM ::1 Returned 200 in 0 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 301 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /santri
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 5 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:28:51 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:28:51 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 301 in 0 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /santri
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:20 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:29:20 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:29:21 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:21 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 301 in 0 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /santri
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 0 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:29:58 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:29:58 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 301 in 0 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /santri
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 0 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 0 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:31:00 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:00 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 301 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /santri
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 6 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 7 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 6 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 5 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 0 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 0 ms
+ HTTP  9/1/2026 6:31:32 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:31:32 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /santri.html
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 301 in 0 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /santri
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/css/ff563e96360a001e.css
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/santri/page-27343e98937acb62.js
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 4 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 3 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /index.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /orangtua.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /ustadz.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /admin.txt?_rsc=1ee2p
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/orangtua/page-d1cad577aef98dc0.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 2 ms
+ HTTP  9/1/2026 6:32:03 AM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
+ HTTP  9/1/2026 6:32:03 AM ::1 Returned 200 in 1 ms
