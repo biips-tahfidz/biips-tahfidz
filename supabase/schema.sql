@@ -55,6 +55,9 @@ CREATE POLICY "Allow anon insert setoran" ON setoran FOR INSERT WITH CHECK (true
 DROP POLICY IF EXISTS "Allow anon update setoran" ON setoran;
 CREATE POLICY "Allow anon update setoran" ON setoran FOR UPDATE USING (true);
 
+DROP POLICY IF EXISTS "Allow anon delete setoran" ON setoran;
+CREATE POLICY "Allow anon delete setoran" ON setoran FOR DELETE USING (true);
+
 -- Seed Initial Users
 INSERT INTO users (username, password, role, kelas) VALUES
 ('aminawa', 'bips00', 'mudir', 'semua'),

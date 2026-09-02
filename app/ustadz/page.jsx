@@ -7,8 +7,36 @@ import { supabase } from '@/lib/supabase';
 export default function UstadzDashboard() {
   const [setoranList, setSetoranList] = useState([]);
   const [selectedClass, setSelectedClass] = useState('semua');
+  const [isClassLocked, setIsClassLocked] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Check logged in user session and set class restriction
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const savedUser = localStorage.getItem('biips_user');
+        if (savedUser) {
+          const userObj = JSON.parse(savedUser);
+          setCurrentUser(userObj);
+
+          const role = (userObj.role || '').toLowerCase();
+          const userClass = (userObj.kelas || '').toString().trim();
+
+          // If user is teacher (guru/ustadz) with specific class, lock class filter to that class
+          if ((role === 'guru' || role === 'ustadz') && userClass && userClass.toLowerCase() !== 'semua') {
+            setSelectedClass(userClass);
+            setIsClassLocked(true);
+          } else {
+            setIsClassLocked(false);
+          }
+        }
+      } catch (e) {
+        console.error('Error parsing logged in user:', e);
+      }
+    }
+  }, []);
 
   const fetchSetoran = async () => {
     setLoading(true);
@@ -54,6 +82,40 @@ export default function UstadzDashboard() {
   useEffect(() => {
     fetchSetoran();
   }, []);
+
+  const handleDeleteSetoran = async (item) => {
+    if (!confirm(`Apakah Anda yakin ingin menghapus setoran hafalan Surah ${item.surah} oleh ${item.santri_name}?`)) {
+      return;
+    }
+
+    try {
+      // 1. Delete record from Supabase DB
+      const { error } = await supabase
+        .from('setoran')
+        .delete()
+        .eq('id', item.id);
+
+      if (error) {
+        console.warn('Supabase DB delete warning:', error.message);
+      }
+
+      // 2. Update local state and localStorage
+      const updatedList = setoranList.filter(s => s.id !== item.id);
+      setSetoranList(updatedList);
+
+      if (typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('biips_setoran', JSON.stringify(updatedList));
+        } catch (e) {
+          console.warn('localStorage error:', e);
+        }
+      }
+
+      alert('Setoran hafalan berhasil dihapus.');
+    } catch (err) {
+      alert('Terjadi kesalahan saat menghapus setoran.');
+    }
+  };
 
   const filteredList = setoranList.filter(item => {
     if (selectedClass === 'semua') return true;
@@ -108,10 +170,16 @@ export default function UstadzDashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex justify-between items-center">
+      <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Dashboard Ustadz / Pengampu Tahfidz</h2>
-          <p className="text-slate-500 text-sm">Dengarkan audio setoran, berikan penilaian, dan kirim grafik/laporan progress hafalan ke WhatsApp Orang Tua.</p>
+          <p className="text-slate-500 text-sm">
+            {currentUser && currentUser.username ? (
+              <span>Pengampu logged-in: <strong className="text-emerald-700 capitalize">{currentUser.username}</strong> ({isClassLocked ? `Khusus Kelas ${selectedClass}` : 'Semua Kelas'})</span>
+            ) : (
+              'Dengarkan audio setoran, berikan penilaian, dan kirim grafik/laporan progress hafalan ke WhatsApp Orang Tua.'
+            )}
+          </p>
         </div>
         <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold uppercase">
           Role Ustadz
@@ -132,12 +200,12 @@ export default function UstadzDashboard() {
       {/* Progress & WhatsApp Report Section */}
       <div className="bg-white p-6 rounded-xl shadow border border-indigo-100 space-y-4">
         <h3 className="text-lg font-bold text-slate-800 border-b pb-2 flex items-center justify-between">
-          <span>📊 Progress Perkembangan Santri</span>
+          <span>📊 Progress Perkembangan Santri {isClassLocked && `(Kelas ${selectedClass})`}</span>
           <span className="text-xs text-slate-500 font-normal">Kirim Laporan via WhatsApp</span>
         </h3>
 
         {Object.keys(santriGroup).length === 0 ? (
-          <p className="text-slate-400 text-xs text-center py-2">Belum ada data perkembangan santri.</p>
+          <p className="text-slate-400 text-xs text-center py-2">Belum ada data perkembangan santri untuk kelas ini.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.values(santriGroup).map((sg) => {
@@ -185,11 +253,12 @@ export default function UstadzDashboard() {
           <div className="flex items-center space-x-2">
             <label className="text-xs text-slate-500">Filter Kelas:</label>
             <select
-              className="border rounded-lg p-1.5 text-xs focus:ring-2 focus:ring-indigo-500"
+              disabled={isClassLocked}
+              className={`border rounded-lg p-1.5 text-xs focus:ring-2 focus:ring-indigo-500 ${isClassLocked ? 'bg-slate-100 font-semibold text-slate-700 cursor-not-allowed' : ''}`}
               value={selectedClass}
               onChange={e => setSelectedClass(e.target.value)}
             >
-              <option value="semua">Semua Kelas</option>
+              {!isClassLocked && <option value="semua">Semua Kelas</option>}
               <option value="1">Kelas 1</option>
               <option value="2">Kelas 2</option>
               <option value="3">Kelas 3</option>
@@ -200,7 +269,7 @@ export default function UstadzDashboard() {
         {loading ? (
           <p className="text-slate-500 text-center py-6 text-sm">Memuat data setoran...</p>
         ) : filteredList.length === 0 ? (
-          <p className="text-slate-400 text-center py-6 text-sm">Belum ada setoran hafalan yang dikirim.</p>
+          <p className="text-slate-400 text-center py-6 text-sm">Belum ada setoran hafalan yang dikirim untuk kelas ini.</p>
         ) : (
           <div className="space-y-4">
             {filteredList.map((item) => (
@@ -239,6 +308,13 @@ export default function UstadzDashboard() {
                     className="bg-indigo-600 text-white font-medium text-sm px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition shadow"
                   >
                     {item.status === 'dinilai' ? 'Edit Nilai' : 'Beri Nilai'}
+                  </button>
+                  <button
+                    onClick={() => handleDeleteSetoran(item)}
+                    className="bg-rose-600 text-white font-medium text-sm px-3.5 py-2.5 rounded-lg hover:bg-rose-700 transition shadow flex items-center justify-center space-x-1"
+                    title="Hapus setoran hafalan"
+                  >
+                    <span>🗑️ Hapus</span>
                   </button>
                 </div>
               </div>
