@@ -188,6 +188,9 @@ export default function OrangTuaDashboard() {
         audioUrl = publicUrlData?.publicUrl || audioUrl;
       }
 
+      // Find matching santri user to set santri_id if available
+      const foundSantri = santriList.find(s => s.username === selectedSantri);
+
       // Insert record to Supabase DB table 'setoran'
       const newRecord = {
         santri_name: selectedSantri || 'Anonim',
@@ -197,6 +200,10 @@ export default function OrangTuaDashboard() {
         audio_url: audioUrl,
         status: 'pending'
       };
+
+      if (foundSantri && foundSantri.id) {
+        newRecord.santri_id = foundSantri.id;
+      }
 
       const recordToSave = {
         ...newRecord,
