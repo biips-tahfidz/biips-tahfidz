@@ -29,12 +29,34 @@ export default function AdminDashboard() {
         setUsers(DEFAULT_USERS);
       }
 
+      let localSetoran = [];
+      if (typeof window !== 'undefined') {
+        try {
+          const saved = localStorage.getItem('biips_setoran');
+          if (saved) localSetoran = JSON.parse(saved);
+        } catch (err) {
+          console.error('Error reading biips_setoran:', err);
+        }
+      }
+
       const { data: setoranData, error: setoranError } = await supabase
         .from('setoran')
         .select('*');
 
       if (!setoranError && setoranData) {
-        setSetoranList(setoranData);
+        const dbIds = new Set(setoranData.map(s => s.id));
+        const localOnly = localSetoran.filter(s => !dbIds.has(s.id));
+        const merged = [...setoranData, ...localOnly];
+        setSetoranList(merged);
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('biips_setoran', JSON.stringify(merged));
+          } catch (e) {
+            console.warn('localStorage quota exceeded:', e);
+          }
+        }
+      } else {
+        setSetoranList(localSetoran);
       }
     } catch (e) {
       console.error('Error fetching admin data from Supabase:', e);

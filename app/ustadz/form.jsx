@@ -29,10 +29,30 @@ export default function AssessmentForm({ item, onSaved, onCancel }) {
         .eq('id', item.id)
         .select();
 
+      const updatedItem = (data && data.length > 0) ? data[0] : { ...item, ...updates };
+
       if (error) {
         console.warn('Supabase DB update error:', error.message);
       }
-      onSaved(data ? data[0] : { ...item, ...updates });
+
+      if (typeof window !== 'undefined') {
+        try {
+          const saved = localStorage.getItem('biips_setoran');
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            const updatedList = parsed.map(s => s.id === item.id ? { ...s, ...updatedItem } : s);
+            try {
+              localStorage.setItem('biips_setoran', JSON.stringify(updatedList));
+            } catch (e) {
+              console.warn('localStorage quota exceeded:', e);
+            }
+          }
+        } catch (err) {
+          console.error('Error updating biips_setoran in localStorage:', err);
+        }
+      }
+
+      onSaved(updatedItem);
     } catch (err) {
       alert(err.message || 'Gagal menyimpan penilaian.');
     } finally {

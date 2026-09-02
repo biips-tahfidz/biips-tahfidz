@@ -36,6 +36,25 @@ CREATE TABLE IF NOT EXISTS setoran (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Enable Row Level Security (RLS) and grant policies for anon / authenticated access
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE setoran ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow anon select users" ON users;
+CREATE POLICY "Allow anon select users" ON users FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow anon insert users" ON users;
+CREATE POLICY "Allow anon insert users" ON users FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow anon select setoran" ON setoran;
+CREATE POLICY "Allow anon select setoran" ON setoran FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Allow anon insert setoran" ON setoran;
+CREATE POLICY "Allow anon insert setoran" ON setoran FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Allow anon update setoran" ON setoran;
+CREATE POLICY "Allow anon update setoran" ON setoran FOR UPDATE USING (true);
+
 -- Seed Initial Users
 INSERT INTO users (username, password, role, kelas) VALUES
 ('aminawa', 'bips00', 'mudir', 'semua'),
