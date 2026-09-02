@@ -41,7 +41,11 @@ export default function AssessmentForm({ item, onSaved, onCancel }) {
           if (saved) {
             const parsed = JSON.parse(saved);
             const updatedList = parsed.map(s => s.id === item.id ? { ...s, ...updatedItem } : s);
-            localStorage.setItem('biips_setoran', JSON.stringify(updatedList));
+            try {
+              localStorage.setItem('biips_setoran', JSON.stringify(updatedList));
+            } catch (e) {
+              console.warn('localStorage quota exceeded:', e);
+            }
           }
         } catch (err) {
           console.error('Error updating biips_setoran in localStorage:', err);

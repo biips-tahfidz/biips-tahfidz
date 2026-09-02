@@ -220,17 +220,22 @@ export default function OrangTuaDashboard() {
 
       if (dbError) {
         console.warn('DB insert error:', dbError.message);
+        setMsg('Setoran disimpan di memori HP/Browser ini. Catatan: Supabase DB belum terhubung. Harap pastikan NEXT_PUBLIC_SUPABASE_URL & ANON_KEY sudah disetting di .env.local / GitHub Secrets.');
+      } else {
+        setMsg('Alhamdulillah, setoran hafalan putra/putri berhasil dikirim dan tersimpan di database!');
       }
 
       setSetoranHistory(prev => {
         const updated = [savedItem, ...prev.filter(item => item.id !== savedItem.id)];
         if (typeof window !== 'undefined') {
-          localStorage.setItem('biips_setoran', JSON.stringify(updated));
+          try {
+            localStorage.setItem('biips_setoran', JSON.stringify(updated));
+          } catch (e) {
+            console.warn('localStorage quota exceeded:', e);
+          }
         }
         return updated;
       });
-
-      setMsg('Alhamdulillah, setoran hafalan putra/putri berhasil dikirim!');
       setSurah('');
       setAyat('');
       setAudioFile(null);

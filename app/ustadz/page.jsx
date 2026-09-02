@@ -34,7 +34,11 @@ export default function UstadzDashboard() {
         const merged = [...data, ...localOnly];
         setSetoranList(merged);
         if (typeof window !== 'undefined') {
-          localStorage.setItem('biips_setoran', JSON.stringify(merged));
+          try {
+            localStorage.setItem('biips_setoran', JSON.stringify(merged));
+          } catch (e) {
+            console.warn('localStorage quota exceeded:', e);
+          }
         }
       } else {
         setSetoranList(localSetoran);
