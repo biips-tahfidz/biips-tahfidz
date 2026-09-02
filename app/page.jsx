@@ -48,6 +48,11 @@ export default function HomePage() {
         return;
       }
 
+      // Store session user in localStorage
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('biips_user', JSON.stringify(matchedUser));
+      }
+
       // 3. Restrict role strictly to santri, guru, and mudir
       const userRole = (matchedUser.role || '').toLowerCase();
 

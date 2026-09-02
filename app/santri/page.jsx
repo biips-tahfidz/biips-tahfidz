@@ -40,8 +40,29 @@ export default function SantriDashboard() {
     }
 
     setSantriList(santris);
+
+    let loggedUser = null;
+    if (typeof window !== 'undefined') {
+      try {
+        const savedUser = localStorage.getItem('biips_user');
+        if (savedUser) loggedUser = JSON.parse(savedUser);
+      } catch (err) {
+        console.error('Error reading biips_user:', err);
+      }
+    }
+
     setSelectedSantri(prev => {
-      if (!prev && santris.length > 0) {
+      if (prev) return prev;
+      if (loggedUser && loggedUser.username) {
+        const found = santris.find(s => s.username.toLowerCase() === loggedUser.username.toLowerCase());
+        if (found) {
+          setKelas(found.kelas || '1');
+          return found.username;
+        }
+        setKelas(loggedUser.kelas || '1');
+        return loggedUser.username;
+      }
+      if (santris.length > 0) {
         setKelas(santris[0].kelas || '1');
         return santris[0].username;
       }
