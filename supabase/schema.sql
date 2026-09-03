@@ -90,34 +90,29 @@ ON CONFLICT (username) DO UPDATE
 SET password = EXCLUDED.password, role = EXCLUDED.role, kelas = EXCLUDED.kelas;
 
 -- Seed Initial Setoran Data (Kelas 1, 2, dan 3)
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, created_at)
-SELECT id, username, kelas, 'An-Nas', '1-6', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'pending', NOW() - INTERVAL '2 hours'
-FROM users WHERE username = 'aisyahkarangjati';
+INSERT INTO setoran (santri_name, kelas, surah, ayat, audio_url, status, created_at)
+VALUES
+('aisyahkarangjati', '1', 'An-Nas', '1-6', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'pending', NOW() - INTERVAL '2 hours'),
+('salman', '1', 'Al-Falaq', '1-5', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'dinilai', NOW() - INTERVAL '1 day'),
+('muhammad', '1', 'Al-Ikhlas', '1-4', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'pending', NOW() - INTERVAL '3 hours'),
+('fatimah', '1', 'Al-Masad', '1-5', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'dinilai', NOW() - INTERVAL '2 days'),
+('hafshoh', '2', 'Al-Ala', '1-19', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'pending', NOW() - INTERVAL '1 hour'),
+('alwi', '2', 'At-Tariq', '1-17', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', 'dinilai', NOW() - INTERVAL '2 days'),
+('faqih', '3', 'An-Naba', '1-20', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', 'pending', NOW() - INTERVAL '30 minutes'),
+('abdullah', '3', 'An-Naziat', '1-46', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', 'dinilai', NOW() - INTERVAL '3 days');
 
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, nilai_tajwid, nilai_kelancaran, catatan_ustadz, ustadz_name, created_at)
-SELECT id, username, kelas, 'Al-Falaq', '1-5', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'dinilai', 'A', 'A', 'Mumtaz! Hafalan lancar dan fasih.', 'ratih', NOW() - INTERVAL '1 day'
-FROM users WHERE username = 'salman';
+UPDATE setoran
+SET nilai_tajwid = 'A', nilai_kelancaran = 'A', catatan_ustadz = 'Mumtaz! Hafalan lancar dan fasih.', ustadz_name = 'ratih'
+WHERE santri_name = 'salman';
 
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, created_at)
-SELECT id, username, kelas, 'Al-Ikhlas', '1-4', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'pending', NOW() - INTERVAL '3 hours'
-FROM users WHERE username = 'muhammad';
+UPDATE setoran
+SET nilai_tajwid = 'A-', nilai_kelancaran = 'A', catatan_ustadz = 'Alhamdulillah bacaan sangat baik.', ustadz_name = 'ratih'
+WHERE santri_name = 'fatimah';
 
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, nilai_tajwid, nilai_kelancaran, catatan_ustadz, ustadz_name, created_at)
-SELECT id, username, kelas, 'Al-Masad', '1-5', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 'dinilai', 'A-', 'A', 'Alhamdulillah bacaan sangat baik.', 'ratih', NOW() - INTERVAL '2 days'
-FROM users WHERE username = 'fatimah';
+UPDATE setoran
+SET nilai_tajwid = 'B+', nilai_kelancaran = 'A', catatan_ustadz = 'Bagus, perhatikan panjang pendek bacaan.', ustadz_name = 'hijri'
+WHERE santri_name = 'alwi';
 
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, created_at)
-SELECT id, username, kelas, 'Al-Ala', '1-19', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3', 'pending', NOW() - INTERVAL '1 hour'
-FROM users WHERE username = 'hafshoh';
-
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, nilai_tajwid, nilai_kelancaran, catatan_ustadz, ustadz_name, created_at)
-SELECT id, username, kelas, 'At-Tariq', '1-17', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3', 'dinilai', 'B+', 'A', 'Bagus, perhatikan panjang pendek bacaan.', 'hijri', NOW() - INTERVAL '2 days'
-FROM users WHERE username = 'alwi';
-
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, created_at)
-SELECT id, username, kelas, 'An-Naba', '1-20', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3', 'pending', NOW() - INTERVAL '30 minutes'
-FROM users WHERE username = 'faqih';
-
-INSERT INTO setoran (santri_id, santri_name, kelas, surah, ayat, audio_url, status, nilai_tajwid, nilai_kelancaran, catatan_ustadz, ustadz_name, created_at)
-SELECT id, username, kelas, 'An-Naziat', '1-46', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3', 'dinilai', 'A', 'A', 'Barakallahu fiik, hafalan sangat lancar.', 'hanifah', NOW() - INTERVAL '3 days'
-FROM users WHERE username = 'abdullah';
+UPDATE setoran
+SET nilai_tajwid = 'A', nilai_kelancaran = 'A', catatan_ustadz = 'Barakallahu fiik, hafalan sangat lancar.', ustadz_name = 'hanifah'
+WHERE santri_name = 'abdullah';
