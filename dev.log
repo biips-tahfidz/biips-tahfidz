@@ -1,0 +1,16 @@
+
+> biips-tahfidz@1.0.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+ ⚠ Port 3002 is in use, trying 3003 instead.
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3003
+
+ ✓ Starting...
+ ✓ Ready in 1521ms
+ ○ Compiling /santri ...
+ ✓ Compiled /santri in 6.7s (599 modules)
+ GET /santri 200 in 7386ms
+ ✓ Compiled in 556ms (308 modules)
