@@ -1,14 +1,28 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { logoutUser } from '@/lib/supabase';
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const checkUser = () => {
+      if (typeof window !== 'undefined') {
+        const savedUser = localStorage.getItem('biips_user');
+        setIsLoggedIn(Boolean(savedUser) && pathname !== '/');
+      }
+    };
+    checkUser();
+  }, [pathname]);
 
   const handleLogout = () => {
     logoutUser();
+    setIsLoggedIn(false);
     router.push('/');
   };
 
@@ -30,12 +44,14 @@ export default function Header() {
           <Link href="/orangtua" className="hover:text-emerald-200 transition">Orang Tua</Link>
           <Link href="/ustadz" className="hover:text-emerald-200 transition">Ustadz / Guru</Link>
           <Link href="/admin" className="hover:text-emerald-200 transition">Mudir / Admin</Link>
-          <button
-            onClick={handleLogout}
-            className="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3 py-1.5 rounded-lg transition font-semibold shadow"
-          >
-            🚪 Logout / Keluar
-          </button>
+          {isLoggedIn && (
+            <button
+              onClick={handleLogout}
+              className="bg-rose-600 hover:bg-rose-700 text-white text-xs px-3 py-1.5 rounded-lg transition font-semibold shadow"
+            >
+              🚪 Logout / Keluar
+            </button>
+          )}
         </nav>
       </div>
     </header>

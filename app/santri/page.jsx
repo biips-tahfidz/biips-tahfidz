@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { supabase, DEFAULT_USERS } from '@/lib/supabase';
+import { supabase, DEFAULT_USERS, DEFAULT_SETORAN } from '@/lib/supabase';
 
 export default function SantriDashboard() {
   const [santriList, setSantriList] = useState([]);
@@ -40,20 +40,46 @@ export default function SantriDashboard() {
     }
 
     setSantriList(santris);
+
+    let loggedUser = null;
+    if (typeof window !== 'undefined') {
+      try {
+        const savedUser = localStorage.getItem('biips_user');
+        if (savedUser) loggedUser = JSON.parse(savedUser);
+      } catch (err) {
+        console.error('Error reading biips_user:', err);
+      }
+    }
+
     setSelectedSantri(prev => {
-      if (!prev && santris.length > 0) {
+      if (prev) return prev;
+      if (loggedUser && loggedUser.username) {
+        const found = santris.find(s => s.username.toLowerCase() === loggedUser.username.toLowerCase());
+        if (found) {
+          setKelas(found.kelas || '1');
+          return found.username;
+        }
+        setKelas(loggedUser.kelas || '1');
+        return loggedUser.username;
+      }
+      if (santris.length > 0) {
         setKelas(santris[0].kelas || '1');
         return santris[0].username;
       }
       return prev;
     });
 
-    // 2. Fetch Setoran History with localStorage persistence
-    let localSetoran = [];
+    // 2. Fetch Setoran History with localStorage & DEFAULT_SETORAN persistence
+    let localSetoran = DEFAULT_SETORAN;
     if (typeof window !== 'undefined') {
       try {
         const saved = localStorage.getItem('biips_setoran');
-        if (saved) localSetoran = JSON.parse(saved);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            localSetoran = parsed;
+          }
+        }
       } catch (err) {
         console.error('Error reading biips_setoran:', err);
       }

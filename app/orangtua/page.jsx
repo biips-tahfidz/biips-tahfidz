@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { supabase, DEFAULT_USERS } from '@/lib/supabase';
+import { supabase, DEFAULT_USERS, DEFAULT_SETORAN } from '@/lib/supabase';
 
 export default function OrangTuaDashboard() {
   const [santriList, setSantriList] = useState([]);
@@ -48,12 +48,17 @@ export default function OrangTuaDashboard() {
       return prev;
     });
 
-    // 2. Fetch Setoran History with localStorage persistence
-    let localSetoran = [];
+    // 2. Fetch Setoran History with localStorage & DEFAULT_SETORAN persistence
+    let localSetoran = DEFAULT_SETORAN;
     if (typeof window !== 'undefined') {
       try {
         const saved = localStorage.getItem('biips_setoran');
-        if (saved) localSetoran = JSON.parse(saved);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            localSetoran = parsed;
+          }
+        }
       } catch (err) {
         console.error('Error reading biips_setoran:', err);
       }
