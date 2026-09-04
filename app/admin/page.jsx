@@ -46,7 +46,8 @@ export default function AdminDashboard() {
 
       const { data: setoranData, error: setoranError } = await supabase
         .from('setoran')
-        .select('*');
+        .select('*')
+        .order('created_at', { ascending: false });
 
       if (!setoranError && setoranData) {
         const dbIds = new Set(setoranData.map(s => s.id));
@@ -107,6 +108,28 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteSetoran = async (id) => {
+    if (!confirm('Apakah Anda yakin ingin menghapus data setoran ini?')) return;
+    try {
+      const { error } = await supabase
+        .from('setoran')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.warn('Error deleting from Supabase:', error.message);
+      }
+
+      const updated = setoranList.filter(s => s.id !== id);
+      setSetoranList(updated);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('biips_setoran', JSON.stringify(updated));
+      }
+    } catch (err) {
+      console.error('Error in handleDeleteSetoran:', err);
+    }
+  };
+
   const filteredUsers = users.filter(u => {
     if (selectedClassFilter === 'semua') return true;
     const cleanUserClass = (u.kelas || '').toString().toUpperCase().replace('KELAS', '').trim();
@@ -114,13 +137,19 @@ export default function AdminDashboard() {
     return cleanUserClass === cleanFilterClass;
   });
 
+  const filteredSetoran = setoranList.filter(s => {
+    if (selectedClassFilter === 'semua') return true;
+    const cleanSetoranClass = (s.kelas || '').toString().toUpperCase().replace('KELAS', '').trim();
+    const cleanFilterClass = selectedClassFilter.toUpperCase().replace('KELAS', '').trim();
+    return cleanSetoranClass === cleanFilterClass;
+  });
+
+  const pendingSetoran = filteredSetoran.filter(s => s.status !== 'dinilai');
+  const evaluatedSetoran = filteredSetoran.filter(s => s.status === 'dinilai');
+
   const generateClassWaReportUrl = () => {
     const totalSantri = filteredUsers.filter(u => u.role === 'santri').length;
-    const totalSetoran = setoranList.filter(s => {
-      if (selectedClassFilter === 'semua') return true;
-      const cleanClass = (s.kelas || '').toString().toUpperCase().replace('KELAS', '').trim();
-      return cleanClass === selectedClassFilter.toUpperCase().replace('KELAS', '').trim();
-    }).length;
+    const totalSetoran = filteredSetoran.length;
 
     let text = `Assalamu'alaikum Warahmatullahi Wabarakatuh.\n\n` +
       `📋 *Laporan Rekapitulasi Hafalan BIIPS*\n` +
@@ -138,7 +167,7 @@ export default function AdminDashboard() {
       <div className="bg-white p-6 rounded-xl shadow border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800">Dashboard Mudir / Admin</h2>
-          <p className="text-slate-500 text-sm">Kelola akun pengguna, data kelas, serta rekapitulasi pengiriman laporan progress via WhatsApp.</p>
+          <p className="text-slate-500 text-sm">Kelola akun pengguna, pantau seluruh setoran hafalan siswa, serta rekapitulasi pengiriman laporan progress via WhatsApp.</p>
         </div>
         <div className="flex items-center space-x-3">
           <a
@@ -155,7 +184,123 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Filter Kelas Utama */}
+      <div className="bg-white p-4 rounded-xl shadow border border-slate-100 flex flex-wrap items-center justify-between gap-4">
+        <h3 className="font-bold text-slate-800 text-sm">Filter Monitoring Keseluruhan</h3>
+        <div className="flex items-center space-x-2">
+          <label className="text-xs font-semibold text-slate-600">Filter Kelas:</label>
+          <select
+            className="border rounded-lg p-2 text-xs font-medium focus:ring-2 focus:ring-purple-500"
+            value={selectedClassFilter}
+            onChange={e => setSelectedClassFilter(e.target.value)}
+          >
+            <option value="semua">Semua Kelas</option>
+            <option value="1">Kelas 1</option>
+            <option value="2">Kelas 2</option>
+            <option value="3">Kelas 3</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Section Monitoring Setoran Hafalan */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between border-b pb-2">
+          <h3 className="text-xl font-bold text-slate-800">
+            📊 Rekapitulasi Setoran Hafalan ({filteredSetoran.length})
+          </h3>
+          <span className="text-xs text-slate-500">
+            Menunggu: <strong className="text-amber-600">{pendingSetoran.length}</strong> | Selesai: <strong className="text-emerald-600">{evaluatedSetoran.length}</strong>
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Daftar Menunggu Penilaian */}
+          <div className="bg-white p-6 rounded-xl shadow border border-amber-200 space-y-4">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h4 className="font-bold text-amber-800 text-base flex items-center gap-2">
+                ⏳ Menunggu Penilaian ({pendingSetoran.length})
+              </h4>
+            </div>
+
+            {pendingSetoran.length === 0 ? (
+              <p className="text-slate-400 text-center py-6 text-xs">Tidak ada setoran yang belum dinilai.</p>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
+                {pendingSetoran.map(item => (
+                  <div key={item.id} className="border border-amber-100 rounded-lg p-3 bg-amber-50/40 space-y-2">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="font-bold text-slate-800 text-sm">{item.santri_name}</span>
+                        <span className="text-xs text-slate-500 ml-2">(Kelas {item.kelas})</span>
+                        <p className="text-xs font-semibold text-emerald-700 mt-0.5">Surah {item.surah} (Ayat {item.ayat})</p>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteSetoran(item.id)}
+                        className="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 px-2 py-0.5 rounded border border-rose-200 transition"
+                      >
+                        🗑️ Hapus
+                      </button>
+                    </div>
+                    {item.audio_url && (
+                      <audio controls src={item.audio_url} className="w-full h-8" />
+                    )}
+                    <div className="flex justify-between items-center text-[10px] text-slate-400">
+                      <span>{new Date(item.created_at || Date.now()).toLocaleString('id-ID')}</span>
+                      <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-semibold">Pending</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Daftar Sudah Dinilai */}
+          <div className="bg-white p-6 rounded-xl shadow border border-emerald-200 space-y-4">
+            <div className="flex justify-between items-center border-b pb-3">
+              <h4 className="font-bold text-emerald-800 text-base flex items-center gap-2">
+                ✅ Sudah Dinilai ({evaluatedSetoran.length})
+              </h4>
+            </div>
+
+            {evaluatedSetoran.length === 0 ? (
+              <p className="text-slate-400 text-center py-6 text-xs">Belum ada setoran yang sudah dinilai.</p>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
+                {evaluatedSetoran.map(item => (
+                  <div key={item.id} className="border border-emerald-100 rounded-lg p-3 bg-emerald-50/40 space-y-2">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="font-bold text-slate-800 text-sm">{item.santri_name}</span>
+                        <span className="text-xs text-slate-500 ml-2">(Kelas {item.kelas})</span>
+                        <p className="text-xs font-semibold text-emerald-700 mt-0.5">Surah {item.surah} (Ayat {item.ayat})</p>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteSetoran(item.id)}
+                        className="text-xs bg-rose-50 hover:bg-rose-100 text-rose-600 px-2 py-0.5 rounded border border-rose-200 transition"
+                      >
+                        🗑️ Hapus
+                      </button>
+                    </div>
+                    {item.audio_url && (
+                      <audio controls src={item.audio_url} className="w-full h-8" />
+                    )}
+                    <div className="bg-white p-2.5 rounded border border-slate-200 text-xs space-y-1">
+                      <p><span className="font-semibold text-slate-700">Tajwid:</span> {item.nilai_tajwid} | <span className="font-semibold text-slate-700">Kelancaran:</span> {item.nilai_kelancaran}</p>
+                      <p><span className="font-semibold text-slate-700">Pengampu:</span> {item.ustadz_name || 'Ustadz'}</p>
+                      {item.catatan_ustadz && <p className="italic text-slate-600">"{item.catatan_ustadz}"</p>}
+                    </div>
+                    <div className="text-[10px] text-slate-400">
+                      <span>{new Date(item.created_at || Date.now()).toLocaleString('id-ID')}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4">
         <div className="bg-white p-6 rounded-xl shadow border border-slate-100 h-fit space-y-4">
           <h3 className="text-lg font-bold text-slate-800 border-b pb-2">Tambah Pengguna Baru</h3>
           {msg && (
@@ -220,21 +365,8 @@ export default function AdminDashboard() {
         </div>
 
         <div className="lg:col-span-2 bg-white p-6 rounded-xl shadow border border-slate-100 space-y-4">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4">
+          <div className="flex justify-between items-center border-b pb-4">
             <h3 className="text-lg font-bold text-slate-800">Daftar Pengguna ({filteredUsers.length})</h3>
-            <div className="flex items-center space-x-2">
-              <label className="text-xs text-slate-500">Filter Kelas:</label>
-              <select
-                className="border rounded-lg p-1.5 text-xs"
-                value={selectedClassFilter}
-                onChange={e => setSelectedClassFilter(e.target.value)}
-              >
-                <option value="semua">Semua Kelas</option>
-                <option value="1">Kelas 1</option>
-                <option value="2">Kelas 2</option>
-                <option value="3">Kelas 3</option>
-              </select>
-            </div>
           </div>
 
           {loading ? (

@@ -5,12 +5,13 @@
  ⚠ Port 3000 is in use, trying 3001 instead.
  ⚠ Port 3001 is in use, trying 3002 instead.
  ⚠ Port 3002 is in use, trying 3003 instead.
+ ⚠ Port 3003 is in use, trying 3004 instead.
   ▲ Next.js 14.2.35
-  - Local:        http://localhost:3003
+  - Local:        http://localhost:3004
 
  ✓ Starting...
- ✓ Ready in 1521ms
- ○ Compiling /santri ...
- ✓ Compiled /santri in 6.7s (599 modules)
- GET /santri 200 in 7386ms
- ✓ Compiled in 556ms (308 modules)
+ ✓ Ready in 2.8s
+ ○ Compiling /admin ...
+ ✓ Compiled /admin in 6.7s (599 modules)
+ GET /admin 200 in 7567ms
+ ✓ Compiled in 955ms (308 modules)

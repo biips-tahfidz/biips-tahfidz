@@ -40,10 +40,6 @@ export default function Header() {
         </div>
         <nav className="flex items-center space-x-4 text-sm font-medium mt-2 sm:mt-0">
           <Link href="/" className="hover:text-emerald-200 transition">Beranda</Link>
-          <Link href="/santri" className="hover:text-emerald-200 transition">Santri</Link>
-          <Link href="/orangtua" className="hover:text-emerald-200 transition">Orang Tua</Link>
-          <Link href="/ustadz" className="hover:text-emerald-200 transition">Ustadz / Guru</Link>
-          <Link href="/admin" className="hover:text-emerald-200 transition">Mudir / Admin</Link>
           {isLoggedIn && (
             <button
               onClick={handleLogout}
