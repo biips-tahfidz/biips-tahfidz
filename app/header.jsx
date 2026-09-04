@@ -30,9 +30,11 @@ export default function Header() {
     <header className="bg-emerald-700 text-white shadow-md">
       <div className="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-700 font-bold text-xl shadow">
-            B
-          </div>
+          <img
+            src="/logo biips.jpg"
+            alt="Logo BIIPS"
+            className="w-12 h-12 rounded-full object-contain bg-white p-0.5 shadow-md border border-amber-300/40"
+          />
           <div>
             <h1 className="text-xl font-bold tracking-wide">Tahfidz BIIPS</h1>
             <p className="text-xs text-emerald-100">Bina Ilmu Islamic Primary School</p>

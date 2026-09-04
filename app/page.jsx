@@ -74,11 +74,21 @@ export default function HomePage() {
 
   return (
     <div className="space-y-8 max-w-xl mx-auto">
-      <section className="bg-gradient-to-r from-emerald-600 to-teal-700 rounded-2xl p-8 text-white shadow-lg text-center">
-        <h2 className="text-3xl font-extrabold mb-3">Login Setoran Hafalan BIIPS</h2>
-        <p className="text-emerald-50 text-sm">
-          Masukkan username dan password Anda untuk masuk ke portal hafalan sesuai role (Santri, Guru, atau Mudir).
-        </p>
+      <section className="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 rounded-2xl p-8 text-white shadow-lg text-center flex flex-col items-center space-y-4">
+        <div className="bg-white p-2 rounded-full shadow-md border-2 border-amber-300">
+          <img
+            src="/logo biips.jpg"
+            alt="Logo BIIPS"
+            className="w-24 h-24 rounded-full object-contain"
+          />
+        </div>
+        <div>
+          <h2 className="text-3xl font-extrabold tracking-wide mb-2">Aplikasi Setoran Tahfidz BIIPS</h2>
+          <p className="text-amber-200 text-xs font-semibold uppercase tracking-wider mb-2">Bina Ilmu Islamic Primary School Blora</p>
+          <p className="text-emerald-100 text-sm max-w-md mx-auto">
+            Portal Digital Evaluasi & Setoran Hafalan Al-Qur'an Santri BIIPS
+          </p>
+        </div>
       </section>
 
       <div className="bg-white rounded-2xl shadow-md border border-slate-100 p-8">

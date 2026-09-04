@@ -15,3 +15,14 @@
  ✓ Compiled /admin in 6.7s (599 modules)
  GET /admin 200 in 7567ms
  ✓ Compiled in 955ms (308 modules)
+ ✓ Compiled in 14.5s (308 modules)
+ ✓ Compiled in 2.5s (308 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 739ms (587 modules)
+ GET / 200 in 1161ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 523ms (590 modules)
+ GET /_next/static/css/app/layout.css?v=1788485101470 404 in 729ms
+ GET /_next/static/chunks/main-app.js?v=1788485101470 404 in 722ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 717ms
+ GET /_next/static/chunks/app/layout.js 404 in 722ms
