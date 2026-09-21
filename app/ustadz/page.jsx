@@ -194,6 +194,7 @@ export default function UstadzDashboard() {
       {activeItem && (
         <AssessmentForm
           item={activeItem}
+          ustadzUsername={currentUser?.username}
           onSaved={() => {
             setActiveItem(null);
             fetchSetoran();
