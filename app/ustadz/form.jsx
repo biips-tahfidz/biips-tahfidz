@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
-export default function AssessmentForm({ item, onSaved, onCancel }) {
+export default function AssessmentForm({ item, ustadzUsername, onSaved, onCancel }) {
   const [nilaiTajwid, setNilaiTajwid] = useState(item.nilai_tajwid || 'A');
   const [nilaiKelancaran, setNilaiKelancaran] = useState(item.nilai_kelancaran || 'A');
   const [catatan, setCatatan] = useState(item.catatan_ustadz || '');
-  const [ustadzName, setUstadzName] = useState(item.ustadz_name || 'Ustadz Pengampu');
+  const [ustadzName, setUstadzName] = useState(item.ustadz_name || ustadzUsername || 'Ustadz Pengampu');
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -61,11 +61,21 @@ export default function AssessmentForm({ item, onSaved, onCancel }) {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow border border-indigo-100 space-y-4">
-      <div className="flex justify-between items-center border-b pb-3">
-        <h3 className="text-lg font-bold text-slate-800">Form Penilaian Setoran</h3>
-        <button onClick={onCancel} className="text-slate-400 hover:text-slate-600 text-sm">Batal</button>
-      </div>
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto animate-fade-in">
+      <div className="bg-white rounded-2xl shadow-2xl border border-indigo-100 w-full max-w-lg p-6 space-y-4 relative my-auto animate-scale-up">
+        <div className="flex justify-between items-center border-b pb-3">
+          <div className="flex items-center space-x-2">
+            <span className="text-indigo-600 text-xl">📝</span>
+            <h3 className="text-lg font-bold text-slate-800">Form Penilaian Setoran</h3>
+          </div>
+          <button
+            onClick={onCancel}
+            className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1 rounded-full transition text-lg leading-none w-8 h-8 flex items-center justify-center"
+            title="Tutup Form"
+          >
+            ✕
+          </button>
+        </div>
 
       <div className="bg-slate-50 p-3 rounded text-sm space-y-1">
         <p><span className="font-semibold text-slate-700">Santri:</span> {item.santri_name} (Kelas {item.kelas})</p>
@@ -133,7 +143,7 @@ export default function AssessmentForm({ item, onSaved, onCancel }) {
           <button
             type="submit"
             disabled={submitting}
-            className="flex-1 bg-indigo-600 text-white font-medium py-2 rounded-lg hover:bg-indigo-700 transition"
+            className="flex-1 bg-indigo-600 text-white font-medium py-2 rounded-lg hover:bg-indigo-700 transition shadow"
           >
             {submitting ? 'Menyimpan...' : 'Simpan Penilaian'}
           </button>
@@ -146,6 +156,7 @@ export default function AssessmentForm({ item, onSaved, onCancel }) {
           </button>
         </div>
       </form>
+      </div>
     </div>
   );
 }

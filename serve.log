@@ -1,39 +1,68 @@
- INFO  Accepting connections at http://localhost:8080
- HTTP  8/31/2026 5:14:11 PM ::1 GET /
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 23 ms
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/css/ff563e96360a001e.css
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/webpack-29957205745576aa.js
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 5 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 4 ms
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/117-632973ba55688f62.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/main-app-6fca1515cee9a03c.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/642-87f4d8d44e42827b.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/44530001-792177c4c52bbd93.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/app/page-8e99e1f18c2bb2ab.js
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 9 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 10 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 7 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 13 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 9 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 28 ms
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/972-773d843e15e97eb0.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/app/layout-f30c8a866de716da.js
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 17 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 7 ms
- HTTP  8/31/2026 5:14:11 PM ::1 GET /santri.txt?_rsc=19zvn
- HTTP  8/31/2026 5:14:11 PM ::1 GET /orangtua.txt?_rsc=19zvn
- HTTP  8/31/2026 5:14:11 PM ::1 GET /ustadz.txt?_rsc=19zvn
- HTTP  8/31/2026 5:14:11 PM ::1 GET /admin.txt?_rsc=19zvn
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 6 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 5 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 5 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 4 ms
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/app/santri/page-d30d420ee947fd04.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/app/orangtua/page-f9f81ace704a824a.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/app/ustadz/page-36c8a87e5df46063.js
- HTTP  8/31/2026 5:14:11 PM ::1 GET /_next/static/chunks/app/admin/page-d951e587fe613085.js
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 7 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 6 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 4 ms
- HTTP  8/31/2026 5:14:11 PM ::1 Returned 200 in 5 ms
+Starting up http-server, serving out
+
+http-server version: 14.1.1
+
+http-server settings:
+CORS: disabled
+Cache: 3600 seconds
+Connection Timeout: 120 seconds
+Directory Listings: visible
+AutoIndex: visible
+Serve GZIP Files: false
+Serve Brotli Files: false
+Default File Extension: none
+
+Available on:
+  http://127.0.0.1:3000
+  http://192.168.0.2:3000
+Hit CTRL-C to stop the server
+
+[2026-09-21T03:08:36.617Z]  "GET /" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+(node:138799) [DEP0066] DeprecationWarning: OutgoingMessage.prototype._headers is deprecated
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[2026-09-21T03:08:36.636Z]  "GET /_next/static/css/f526ef8f8ce1cd36.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.638Z]  "GET /_next/static/chunks/webpack-03f7c6bc932ce1e3.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.643Z]  "GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.654Z]  "GET /_next/static/chunks/117-632973ba55688f62.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.655Z]  "GET /_next/static/chunks/main-app-6fca1515cee9a03c.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.657Z]  "GET /_next/static/chunks/44530001-792177c4c52bbd93.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.657Z]  "GET /_next/static/chunks/642-87f4d8d44e42827b.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.658Z]  "GET /_next/static/chunks/app/page-83a61ac2e66335ed.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.665Z]  "GET /_next/static/chunks/448-045bfaac36b629a3.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.667Z]  "GET /_next/static/chunks/app/layout-f99651a6db3550c4.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.759Z]  "GET /ustadz/index.html" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.826Z]  "GET /index.txt?_rsc=77yha" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.827Z]  "GET /santri.txt?_rsc=77yha" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.831Z]  "GET /orangtua.txt?_rsc=77yha" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.832Z]  "GET /ustadz.txt?_rsc=77yha" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.832Z]  "GET /admin.txt?_rsc=77yha" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.836Z]  "GET /_next/static/chunks/app/santri/page-9367cf26c26835f9.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.837Z]  "GET /_next/static/chunks/app/orangtua/page-44d182424e0ed098.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.841Z]  "GET /_next/static/chunks/app/ustadz/page-b525da915d5b0599.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:08:36.842Z]  "GET /_next/static/chunks/app/admin/page-7ba0a137d4344a5c.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.499Z]  "GET /" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.510Z]  "GET /_next/static/css/f526ef8f8ce1cd36.css" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.511Z]  "GET /_next/static/chunks/webpack-03f7c6bc932ce1e3.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.515Z]  "GET /_next/static/chunks/fd9d1056-87da80e0c187477b.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.526Z]  "GET /_next/static/chunks/117-632973ba55688f62.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.526Z]  "GET /_next/static/chunks/main-app-6fca1515cee9a03c.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.527Z]  "GET /_next/static/chunks/44530001-792177c4c52bbd93.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.529Z]  "GET /_next/static/chunks/642-87f4d8d44e42827b.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.529Z]  "GET /_next/static/chunks/app/page-83a61ac2e66335ed.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.530Z]  "GET /_next/static/chunks/448-045bfaac36b629a3.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.533Z]  "GET /_next/static/chunks/app/layout-f99651a6db3550c4.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.636Z]  "GET /ustadz.html" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.644Z]  "GET /santri.txt?_rsc=19zvn" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.645Z]  "GET /orangtua.txt?_rsc=19zvn" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.646Z]  "GET /ustadz.txt?_rsc=19zvn" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.649Z]  "GET /admin.txt?_rsc=19zvn" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.661Z]  "GET /_next/static/chunks/app/ustadz/page-b525da915d5b0599.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.796Z]  "GET /index.txt?_rsc=tfnsu" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.797Z]  "GET /santri.txt?_rsc=tfnsu" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.798Z]  "GET /orangtua.txt?_rsc=tfnsu" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.798Z]  "GET /ustadz.txt?_rsc=tfnsu" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.799Z]  "GET /admin.txt?_rsc=tfnsu" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.809Z]  "GET /_next/static/chunks/app/santri/page-9367cf26c26835f9.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.812Z]  "GET /_next/static/chunks/app/orangtua/page-44d182424e0ed098.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+[2026-09-21T03:09:12.812Z]  "GET /_next/static/chunks/app/admin/page-7ba0a137d4344a5c.js" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36"
+Killed

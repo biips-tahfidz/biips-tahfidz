@@ -1,0 +1,14 @@
+
+> biips-tahfidz@1.0.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.4s
+ ○ Compiling /ustadz ...
+ ✓ Compiled /ustadz in 5.1s (601 modules)
+ GET /ustadz 200 in 5592ms
+ ✓ Compiled in 580ms (309 modules)
+ GET /ustadz 200 in 92ms
